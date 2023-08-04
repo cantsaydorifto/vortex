@@ -1,0 +1,101 @@
+.overlay {
+  width: 100%;
+  height: 100vh;
+  animation: opacity 0.2s forwards;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.content {
+  margin: auto;
+  color: black;
+  width: 350px;
+  box-sizing: border-box;
+  background-color: rgb(208, 163, 230);
+  /* background-color: rgb(227, 199, 199); */
+  border-radius: 14px;
+  padding: 30px 45px;
+  animation: modalContent 0.2s forwards;
+}
+
+@keyframes modalContent {
+  0% {
+    scale: 0.7;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.content > h1 {
+  font-size: 1.3rem;
+}
+
+.content a {
+  text-decoration: none;
+}
+
+.content > p {
+  font-size: 0.85rem;
+  margin: 5px 0;
+}
+
+.content > form {
+  display: flex;
+  flex-direction: column;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.content > form > div > input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 5px;
+  border-radius: 16px;
+  padding: 0 10px;
+  border: none;
+  height: 30px;
+  opacity: 0.5;
+}
+
+.content > form > button {
+  border-radius: 22px;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  background-color: #8628ce;
+  /* background-color: #ce2828; */
+  color: white;
+}
+
+.content > div {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.content > div > button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(0, 0, 181);
+  font-size: 1rem;
+}
