@@ -1,0 +1,35 @@
+.main > h1 {
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.main > form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 400px;
+  gap: 5px;
+}
+
+.main > form > p {
+  margin-top: 30px;
+  color: rgb(228, 111, 111);
+}
+
+.main > form > button {
+  margin: 30px auto 0 auto;
+  padding: 13px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+}
