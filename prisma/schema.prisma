@@ -17,7 +17,7 @@ model User {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime?
   Post         Post[]
-  Channel      Channel[]
+  Community    Community[]
   Moderator    Moderator[]
   RefreshToken RefreshToken[]
 }
@@ -30,33 +30,35 @@ model RefreshToken {
 }
 
 model Moderator {
-  userId    Int
-  user      User    @relation(fields: [userId], references: [id])
-  channel   Channel @relation(fields: [channelId], references: [id])
-  channelId Int
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId Int
 
-  @@id([channelId, userId])
+  @@id([communityId, userId])
 }
 
-model Channel {
+model Community {
   id        Int         @id @default(autoincrement())
   name      String
   createdAt DateTime    @default(now())
   updatedAt DateTime?
   Post      Post[]
   creatorId Int
+  img       String
+  icon      String
   user      User        @relation(fields: [creatorId], references: [id])
   Moderator Moderator[]
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String
-  content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
-  authorId  Int
-  author    User      @relation(fields: [authorId], references: [id])
-  Channel   Channel   @relation(fields: [channelId], references: [id])
-  channelId Int
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+  authorId    Int
+  author      User      @relation(fields: [authorId], references: [id])
+  Community   Community @relation(fields: [communityId], references: [id])
+  communityId Int
 }

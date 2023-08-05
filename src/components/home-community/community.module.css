@@ -1,0 +1,52 @@
+.frame {
+  width: 1100px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.frame > div {
+  width: 280px;
+  height: 200px;
+  position: relative;
+  border-radius: 20px;
+}
+
+.frame > div::before {
+  content: "";
+  position: absolute;
+  border-radius: 20px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.4) 70%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.frame > div > img {
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.frame > div > div {
+  position: absolute;
+  bottom: 5px;
+  font-size: 0.9rem;
+  gap: 6px;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frame > div > div > img {
+  width: 25px;
+  height: 25px;
+}

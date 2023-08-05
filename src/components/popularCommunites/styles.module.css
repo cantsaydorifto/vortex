@@ -1,0 +1,38 @@
+.popularCommunites {
+  display: flex;
+  flex-direction: column;
+  font-weight: 200;
+  font-size: 1rem;
+  gap: 20px;
+  background-color: rgb(28, 28, 28);
+  width: 250px;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 50px;
+}
+
+.popularCommunites > h3 {
+  font-size: 0.8rem;
+  color: rgb(241, 241, 241);
+  font-weight: 300;
+}
+
+.popularCommunites > div {
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  transition: all 0.1s;
+}
+
+.popularCommunites > div:hover {
+  cursor: pointer;
+  background-color: rgb(48, 46, 46);
+}
+
+.popularCommunites > div > img {
+  height: 25px;
+  width: 25px;
+}

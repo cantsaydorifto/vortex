@@ -1,0 +1,38 @@
+.sidebar {
+  font-weight: 200;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  position: fixed;
+  top: 0;
+  min-height: 100vh;
+  border-right: 1px solid rgb(34, 34, 34);
+  padding-top: 100px;
+  padding-right: 10px;
+}
+
+.sidebar > h2 {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-top: -10px;
+  padding-left: 10px;
+}
+
+.sidebar img {
+  height: 20px;
+  width: 20px;
+}
+
+.sidebar > hr {
+  border: 0;
+  border-bottom: 2px solid rgb(41, 41, 41);
+}
+
+.sidebar > div {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0 10px;
+  gap: 15px;
+}

@@ -1,13 +1,19 @@
 .navbar {
   box-sizing: border-box;
-  padding: 0 20px;
   height: 60px;
-  width: 100%;
+  padding: 0 20px;
+  width: calc(100% - 40px);
+  top: 0;
+  left: 20px;
+  left: 20px;
   display: flex;
+  position: fixed;
+  z-index: 1;
   justify-content: space-between;
   gap: 50px;
   align-items: center;
-  background-color: #171717;
+  border-bottom: 1px solid rgb(34, 34, 34);
+  background-color: rgb(19, 18, 18);
 }
 
 .navbar > h1 {
