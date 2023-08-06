@@ -3,8 +3,6 @@ import styles from "./sidebar.module.css";
 
 export default async function Sidebar() {
   const res = await prisma.community.findMany();
-  res.push({ ...res[res.length - 3] });
-  res[res.length - 1].id = 100;
   return (
     <div className={styles.sidebar}>
       <div>

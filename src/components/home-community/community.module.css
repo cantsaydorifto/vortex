@@ -1,15 +1,40 @@
-.frame {
+.frameContainer {
   width: 1100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.frameContainer > button {
+  position: absolute;
+  top: calc(50% - 10px);
+  z-index: 1;
+  border: none;
+  background-color: rgba(35, 32, 32, 0.986);
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 3px;
+}
+
+.frameContainer > button:nth-child(1) {
+  left: 3px;
+}
+
+.frameContainer > button:nth-child(3) {
+  right: 3px;
+}
+
+.frame {
   display: flex;
+  transition: all 3s;
+  width: fit-content;
   gap: 20px;
-  justify-content: center;
 }
 
 .frame > div {
   width: 280px;
   height: 200px;
   position: relative;
-  border-radius: 20px;
+  border-radius: 2px;
 }
 
 .frame > div::before {
