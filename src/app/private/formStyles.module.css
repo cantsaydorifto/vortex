@@ -1,0 +1,107 @@
+.formContainer {
+  width: 500px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  width: 500px;
+  margin: 20px auto;
+  gap: 20px;
+}
+
+.communityIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.heading {
+  margin: 30px 0 50px 0;
+  color: rgb(122, 122, 122);
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input {
+  background-color: rgb(29, 29, 29);
+  color: white;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+.form input:focus {
+  outline: none;
+}
+
+.desc {
+  height: 100px;
+  background-color: rgb(29, 29, 29);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+.desc:focus {
+  outline: none;
+}
+
+.container {
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  gap: 200px;
+}
+
+.imageContainer {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.imageContainer > h2 {
+  font-weight: 400;
+  margin-bottom: -20px;
+  text-align: center;
+}
+
+.imageContainer > img {
+  height: 300px;
+  width: 500px;
+  border-radius: 8px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.imageContainer > div > label,
+.form > div:nth-child(3) > div > label {
+  font-size: 1rem;
+  background-color: rgb(34, 34, 34);
+}
+
+.form > div:nth-child(3) > div > div > p {
+  color: rgb(16, 16, 16);
+}
+
+.form > div:nth-child(3) {
+  width: fit-content;
+  color: white;
+  background-color: grey;
+  margin: auto;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 30px;
+}

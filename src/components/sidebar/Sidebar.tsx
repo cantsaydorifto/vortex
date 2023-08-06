@@ -31,7 +31,7 @@ export default async function Sidebar() {
           icon-name="popular-outline"
           fill="currentColor"
         >
-          <g clip-path="url(#clip0_474_48)">
+          <g clipPath="url(#clip0_474_48)">
             <path d="M10 0a10 10 0 1010 10A10.011 10.011 0 0010 0zm0 18.75a8.7 8.7 0 01-5.721-2.145l8.471-8.471v4.148H14V6.638A.647.647 0 0013.362 6H7.718v1.25h4.148L3.4 15.721A8.739 8.739 0 1110 18.75z"></path>
           </g>
           <defs>

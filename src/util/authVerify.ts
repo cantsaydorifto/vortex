@@ -20,6 +20,7 @@ export default async function authVerify() {
       User: {
         select: {
           username: true,
+          id: true,
         },
       },
     },
@@ -38,6 +39,7 @@ export default async function authVerify() {
   }
 
   const authHeader = headers().get("authorization");
+
   if (!authHeader) throw { status: 401, message: "Unauthorized" };
 
   const token = authHeader.split(" ")[1];
