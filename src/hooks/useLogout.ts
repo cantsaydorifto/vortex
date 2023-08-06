@@ -12,7 +12,7 @@ export default function useLogout() {
       });
       await axios.post("/api/clear", { withCredentials: true });
     } catch (err) {
-      console.error(err);
+      // console.log(err);
     }
   };
   return logout;

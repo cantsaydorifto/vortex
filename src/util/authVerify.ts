@@ -55,4 +55,5 @@ export default async function authVerify() {
 
   if (userRefreshToken.User.username !== decodedUsername)
     throw { status: 401, message: "Unauthorized" };
+  return userRefreshToken.User;
 }

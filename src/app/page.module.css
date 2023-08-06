@@ -41,7 +41,9 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+}
 
-  /* background-color: red; */
-  width: 1000px;
+.content > div:nth-child(2) {
+  display: flex;
+  justify-content: flex-end;
 }

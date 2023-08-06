@@ -12,16 +12,31 @@
 }
 
 .communityIcon {
-  width: 60px;
-  height: 60px;
+  height: 100px;
 }
 
 .heading {
-  margin: 30px 0 50px 0;
+  margin: 30px 0 0 0;
   color: rgb(122, 122, 122);
   font-size: 2rem;
   font-weight: 400;
   text-align: center;
+}
+
+.error {
+  color: rgb(219, 108, 108);
+  height: 20px;
+  margin-bottom: 10px;
+  animation: error forwards 0.2s ease-in-out;
+}
+
+@keyframes error {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .form > div {
@@ -89,7 +104,7 @@
 }
 
 .form > div:nth-child(3) > div > div > p {
-  color: rgb(16, 16, 16);
+  color: rgb(212, 212, 212);
 }
 
 .form > div:nth-child(3) {
@@ -103,5 +118,15 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  gap: 30px;
+  gap: 20px;
+}
+
+.createCommunityButton {
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: rgb(69, 69, 150);
+  padding: 15px 25px;
+  border-radius: 8px;
 }

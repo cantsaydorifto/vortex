@@ -1,46 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import styles from "./formStyles.module.css";
 import { UploadButton } from "@/util/uploadthing";
 
-export default function AddCommunityForm() {
-  const [desc, setDesc] = useState("");
+type CommunityInfo = {
+  description: string;
+  name: string;
+  icon: string;
+  imageSrc: string;
+};
+
+export default function AddCommunityForm({
+  communityInfo,
+  setCommunityInfo,
+}: {
+  communityInfo: CommunityInfo;
+  setCommunityInfo: Dispatch<SetStateAction<CommunityInfo>>;
+}) {
   return (
     <div className={styles.formContainer}>
       <form className={styles.form}>
         <div>
           <label htmlFor="name">Name</label>
-          <input placeholder="Name your community" type="text" id="name" />
+          <input
+            value={communityInfo.name}
+            onChange={(event) =>
+              setCommunityInfo((prev) => {
+                return { ...prev, name: event.target.value };
+              })
+            }
+            placeholder="Name your community"
+            type="text"
+            id="name"
+          />
         </div>
         <div>
           <label htmlFor="description">Description</label>
           <textarea
             id="description"
-            value={desc}
+            value={communityInfo.description}
             className={styles.desc}
             maxLength={250}
-            onChange={(event) => setDesc(event.target.value)}
+            onChange={(event) =>
+              setCommunityInfo((prev) => {
+                return { ...prev, description: event.target.value };
+              })
+            }
             placeholder="Describe your community"
           />
         </div>
         <div>
           <label>Community Icon</label>
-          <img
-            className={styles.communityIcon}
-            src="https://cdn-icons-png.flaticon.com/512/1099/1099794.png"
-            alt=""
-          />
+          {communityInfo.icon === "" ? (
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/6939/6939131.png"
+              style={{ width: "40px", height: "40px" }}
+              alt=""
+            />
+          ) : (
+            <img
+              className={styles.communityIcon}
+              src={communityInfo.icon}
+              alt=""
+            />
+          )}
           <UploadButton
-            endpoint="imageUploader"
+            endpoint="iconUploader"
             onClientUploadComplete={(res) => {
               // Do something with the response
               console.log("Files: ", res);
+              if (res)
+                setCommunityInfo((prev) => {
+                  return { ...prev, icon: res[0].fileUrl };
+                });
               alert("Upload Completed");
             }}
-            onUploadError={(error: Error) => {
+            onUploadError={() => {
               // Do something with the error.
-              alert(`ERROR! ${error.message}`);
+              alert(`Something Went Wrong! Try Again`);
             }}
           />
         </div>
