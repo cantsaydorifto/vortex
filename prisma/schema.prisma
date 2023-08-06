@@ -39,16 +39,17 @@ model Moderator {
 }
 
 model Community {
-  id        Int         @id @default(autoincrement())
-  name      String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime?
-  Post      Post[]
-  creatorId Int
-  img       String
-  icon      String
-  user      User        @relation(fields: [creatorId], references: [id])
-  Moderator Moderator[]
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String      @default("no description")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?
+  Post        Post[]
+  creatorId   Int
+  img         String
+  icon        String
+  user        User        @relation(fields: [creatorId], references: [id])
+  Moderator   Moderator[]
 }
 
 model Post {
