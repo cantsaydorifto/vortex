@@ -27,8 +27,15 @@ export async function POST(request: Request) {
     const user = await authVerify();
     const reqBody = await request.json();
     const communityInfo = getCommunityInfoSchema().safeParse(reqBody);
+
     if (!communityInfo.success)
       throw { status: 400, message: communityInfo.error.issues[0].message };
+
+    if (communityInfo.data.communityName.includes(" "))
+      throw {
+        status: 400,
+        message: "spaces are not allowed for community names",
+      };
 
     const res = await prisma.community.create({
       data: {
