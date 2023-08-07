@@ -40,8 +40,8 @@ model Moderator {
 
 model Community {
   id          Int         @id @default(autoincrement())
-  name        String
-  description String      @default("no description")
+  name        String      @unique
+  description String      @default("no description") @db.VarChar(240)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?
   Post        Post[]

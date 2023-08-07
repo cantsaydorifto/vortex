@@ -25,7 +25,7 @@
 
 .frame {
   display: flex;
-  transition: all 3s;
+  transition: all 1s;
   width: fit-content;
   gap: 20px;
 }
