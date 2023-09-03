@@ -67,7 +67,7 @@ export default function Navbar() {
             <SignupForm toggleModal={toggleModal} />
           )}
           <div>
-            {loginForm ? "New to Reddit? " : "Already a Redditor? "}
+            {loginForm ? "New to Vortex? " : "Already on Vortex? "}
             <button onClick={() => setLoginForm((prev) => !prev)}>
               {loginForm ? "Sign Up" : "Login"}
             </button>

@@ -41,7 +41,7 @@ export default function AddCommunityForm({
             id="description"
             value={communityInfo.description}
             className={styles.desc}
-            maxLength={250}
+            maxLength={240}
             onChange={(event) =>
               setCommunityInfo((prev) => {
                 return { ...prev, description: event.target.value };

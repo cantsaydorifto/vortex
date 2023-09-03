@@ -17,7 +17,7 @@
   font-weight: 300;
 }
 
-.popularCommunites > div {
+.popularCommunites > a {
   width: 100%;
   padding: 0 5px;
   display: flex;
@@ -27,12 +27,12 @@
   transition: all 0.1s;
 }
 
-.popularCommunites > div:hover {
+.popularCommunites > a:hover {
   cursor: pointer;
   background-color: rgb(48, 46, 46);
 }
 
-.popularCommunites > div > img {
+.popularCommunites > a > img {
   height: 25px;
   width: 25px;
 }

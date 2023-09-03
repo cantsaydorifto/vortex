@@ -98,7 +98,14 @@ export default function SignupForm({
       </div>
       {loading && <div>loading....</div>}
       {error && <div>{error}</div>}
-      <button>Sign Up</button>
+      <button
+        onClick={async (event) => {
+          event.preventDefault();
+          await handleAuth(userInfo);
+        }}
+      >
+        Sign Up
+      </button>
     </form>
   );
 }

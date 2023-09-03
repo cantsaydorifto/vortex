@@ -47,7 +47,10 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: res }, { status: 200 });
+    return NextResponse.json(
+      { message: "community created", name: res.name },
+      { status: 200 }
+    );
   } catch (err: any) {
     return NextResponse.json(
       { message: err.message || err || "ERROR" },
