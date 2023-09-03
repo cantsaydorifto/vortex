@@ -41,7 +41,7 @@ export async function POST(request: Request) {
 
     const compare = await bcrypt.compare(userInfo.data.password, user.password);
     if (!compare)
-      if (!compare) throw { status: 401, message: "Incorrect Passoword" };
+      if (!compare) throw { status: 401, message: "Incorrect Password" };
 
     const accessToken = jwt.sign(
       { id: user.id, username: user.username, email: user.email },
