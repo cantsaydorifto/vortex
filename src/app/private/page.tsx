@@ -6,9 +6,12 @@ import { UploadButton } from "@/util/uploadthing";
 import AddCommunityForm from "./AddCommunityForm";
 import styles from "./formStyles.module.css";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { auth } = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [communityInfo, setCommunityInfo] = useState({
     description: "",
     name: "",
@@ -20,8 +23,9 @@ export default function Home() {
   async function createCommunity() {
     try {
       if (!auth.user) return;
+      setLoading(true);
       // console.log(auth.user.token);
-      const res = await axiosPrivate.post<{ users: string[] }>(
+      const res = await axiosPrivate.post<{ message: string; name: string }>(
         "/api/community",
         {
           communityName: communityInfo.name,
@@ -34,11 +38,13 @@ export default function Home() {
         }
       );
       console.log("res", res);
-      // setData(res.data.tokens);
+      setLoading(false);
+      router.push(`/community/${res.data.name}`);
     } catch (err: any) {
       setTimeout(() => {
         setErr(null);
       }, 3000);
+      setLoading(false);
       setErr(err.response.data.message);
       // console.error(err.response.data.message);
     }
