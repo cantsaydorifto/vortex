@@ -1,21 +1,21 @@
 .container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin: 0 auto;
   min-height: 100vh;
+  /* background-color: red; */
+  justify-content: space-between;
   max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
 }
 
 .comInfoContainer {
-  margin-left: 250px;
+  margin-left: 200px;
+  padding-left: 20px;
   margin-top: 80px;
-  min-height: 100vh;
-  /* height: 100%; */
+  height: fit-content;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  gap: 20px;
 }
 
 .comInfo {
@@ -26,8 +26,8 @@
   gap: 20px;
   background-color: rgb(28, 28, 28);
   width: 350px;
-  position: fixed;
-  padding-bottom: 40px;
+  height: fit-content;
+  padding-bottom: 30px;
   border-radius: 12px;
 }
 
@@ -89,11 +89,59 @@
 }
 
 .comData > div > span:nth-child(1) {
-  /* font-weight: 400; */
   font-size: 1.2rem;
 }
 
 .comData > div > span:nth-child(2) {
   color: rgb(145, 145, 145);
   font-weight: 400;
+}
+
+.postContainer {
+  width: calc(100% - 370px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.postContainer > div:nth-child(1) > div > img {
+  width: 50px;
+  height: 50px;
+}
+
+.postContainer > div:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.postContainer > div:nth-child(1) > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.postContainer > div:nth-child(1) > div > span {
+  font-size: 1.6rem;
+}
+
+.postContainer > div:nth-child(1) > a {
+  display: flex;
+  background-color: rgba(72, 72, 72, 0.494);
+  width: fit-content;
+  padding: 8px;
+  border-radius: 20px;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+
+.postContainer > div:nth-child(1) > a:hover {
+  background-color: rgba(91, 91, 91, 0.494);
+}
+
+.postContainer > div:nth-child(1) > a > img {
+  width: 25px;
+  height: 25px;
 }

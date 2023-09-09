@@ -1,0 +1,88 @@
+.card {
+  background-color: grey;
+  /* padding: 10px 20px; */
+}
+
+.task {
+  position: relative;
+  width: 840px;
+  border-radius: 8px;
+  min-height: 100px;
+  padding: 15px;
+  background-color: rgb(28, 28, 28);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pop 0.1s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.task > p:nth-child(2) {
+  padding-right: 20px;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.task > p:nth-child(3) {
+  color: rgb(207, 207, 207);
+  font-weight: 300;
+}
+
+.postDetails {
+  display: flex;
+  gap: 20px;
+  font-weight: 300;
+}
+
+.postDetails > span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.postDetails img {
+  height: 30px;
+  width: 30px;
+}
+
+.relativeTime {
+  color: rgb(122, 122, 122);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.actionContainer {
+  display: flex;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.like {
+  animation: 0.2s popup ease-out;
+}
+
+.likeButton {
+  all: unset;
+  cursor: pointer;
+}
+
+@keyframes popup {
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
