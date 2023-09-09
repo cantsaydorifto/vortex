@@ -76,7 +76,7 @@ export default function PostCard({
               return { ...prev, like: !prev.like };
             });
             try {
-              await axiosPrivate.post("/api/like", { id: post.id });
+              await axiosPrivate.put("/api/like", { id: post.id });
             } catch (err) {
               setLikeDislike(prevState);
             }
@@ -96,7 +96,7 @@ export default function PostCard({
               return { ...prev, dislike: !prev.dislike };
             });
             try {
-              await axiosPrivate.post("/api/dislike", { id: post.id });
+              await axiosPrivate.put("/api/dislike", { id: post.id });
             } catch (err) {
               setLikeDislike(prevState);
             }

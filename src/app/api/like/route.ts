@@ -11,7 +11,7 @@ function getPostInfoSchema() {
   });
 }
 
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   try {
     const user = await authVerify();
     const reqBody = await request.json();
