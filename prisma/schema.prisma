@@ -8,20 +8,30 @@ datasource db {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  username     String         @unique
-  password     String
-  firstName    String?
-  lastName     String?
-  email        String         @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime?
-  Post         Post[]
-  Community    Community[]
-  Moderator    Moderator[]
-  RefreshToken RefreshToken[]
-  Likes        Likes[]
-  DisLikes     DisLikes[]
+  id                 Int                  @id @default(autoincrement())
+  username           String               @unique
+  password           String
+  firstName          String?
+  lastName           String?
+  email              String               @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime?
+  Post               Post[]
+  Community          Community[]
+  Moderator          Moderator[]
+  RefreshToken       RefreshToken[]
+  Likes              Likes[]
+  DisLikes           DisLikes[]
+  FollowingCommunity FollowingCommunity[]
+}
+
+model FollowingCommunity {
+  User        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  Community   Community @relation(fields: [communityId], references: [id])
+  communityId Int
+
+  @@id([userId, communityId])
 }
 
 model Likes {
@@ -59,17 +69,18 @@ model Moderator {
 }
 
 model Community {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique
-  description String      @default("no description") @db.VarChar(240)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?
-  Post        Post[]
-  creatorId   Int
-  img         String
-  icon        String
-  user        User        @relation(fields: [creatorId], references: [id])
-  Moderator   Moderator[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  description        String               @default("no description") @db.VarChar(240)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime?
+  Post               Post[]
+  creatorId          Int
+  img                String
+  icon               String
+  user               User                 @relation(fields: [creatorId], references: [id])
+  Moderator          Moderator[]
+  FollowingCommunity FollowingCommunity[]
 }
 
 model Post {
