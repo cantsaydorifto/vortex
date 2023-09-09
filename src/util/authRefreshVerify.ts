@@ -1,13 +1,18 @@
 import prisma from "@/util/prisma";
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 export const authRefreshVerify = async () => {
-  if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET)
+  if (!process.env.JWT_REFRESH_SECRET)
     throw { status: 500, message: "JWT SECRET NOT FOUND" };
 
   const cookie = cookies().get("jwt");
   if (!cookie || !cookie.value) throw { status: 401, message: "Unauthorized" };
   const refreshToken = cookie.value;
+
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+    if (err) throw { status: 403, message: "Invalid Token" };
+  });
 
   const userRefreshToken = await prisma.refreshToken.findUnique({
     where: {

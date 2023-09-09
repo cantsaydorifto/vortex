@@ -1,5 +1,5 @@
+import { authRefreshVerify } from "@/util/authRefreshVerify";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { authRefreshVerify } from "./authRefreshVerify";
 
 const f = createUploadthing();
 
