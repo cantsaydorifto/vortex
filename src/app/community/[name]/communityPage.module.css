@@ -63,6 +63,16 @@
   padding: 6px 12px;
   cursor: pointer;
   border-radius: 18px;
+  animation: pop 0.1s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .comInfo > p {

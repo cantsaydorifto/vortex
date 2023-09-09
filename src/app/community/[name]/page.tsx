@@ -8,9 +8,11 @@ import Link from "next/link";
 
 async function getCommunityAndPosts(communityName: string) {
   let userId: number | null = null;
+  const following: number[] = [];
   try {
     const user = await authRefreshVerify();
     userId = user.id;
+    following.push(...user.following);
   } catch (err) {
     console.log(err);
   }
@@ -41,7 +43,7 @@ async function getCommunityAndPosts(communityName: string) {
     }));
 
     if (!userId) {
-      return { community, posts, userActions: null };
+      return { community, posts, userInfo: null, following };
     }
     const [userLikes, userDislikes] = await prisma.$transaction([
       prisma.likes.findMany({
@@ -71,10 +73,11 @@ async function getCommunityAndPosts(communityName: string) {
     return {
       community,
       posts,
-      userActions: {
+      userInfo: {
         userLikes: userLikes.map((el) => el.postId),
         userDislikes: userDislikes.map((el) => el.postId),
       },
+      following,
     };
   } catch (err) {
     console.log(err);
@@ -106,7 +109,7 @@ export default async function Page({ params }: { params: { name: string } }) {
             </Link>
           </div>
           {res.posts.map((post) =>
-            !res.userActions ? (
+            !res.userInfo ? (
               <PostCard
                 like={false}
                 dislike={false}
@@ -115,15 +118,18 @@ export default async function Page({ params }: { params: { name: string } }) {
               />
             ) : (
               <PostCard
-                like={res.userActions.userLikes.includes(post.id)}
-                dislike={res.userActions.userDislikes.includes(post.id)}
+                like={res.userInfo.userLikes.includes(post.id)}
+                dislike={res.userInfo.userDislikes.includes(post.id)}
                 key={post.id}
                 post={post}
               />
             )
           )}
         </div>
-        <CommunityInfo res={res.community} />
+        <CommunityInfo
+          following={res.following.includes(res.community.id)}
+          res={res.community}
+        />
       </div>
     </main>
   );

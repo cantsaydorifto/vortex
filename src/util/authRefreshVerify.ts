@@ -23,6 +23,11 @@ export const authRefreshVerify = async () => {
         select: {
           username: true,
           id: true,
+          FollowingCommunity: {
+            select: {
+              communityId: true,
+            },
+          },
         },
       },
     },
@@ -34,5 +39,8 @@ export const authRefreshVerify = async () => {
   return {
     username: userRefreshToken.User.username,
     id: userRefreshToken.User.id,
+    following: userRefreshToken.User.FollowingCommunity.map(
+      (el) => el.communityId
+    ),
   };
 };
