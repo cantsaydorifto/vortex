@@ -65,9 +65,9 @@
   width: 400px;
   height: 100%;
   outline: none;
-  border: 1px solid rgb(47, 45, 45);
+  border: 1px solid rgb(33, 33, 33);
   border-radius: 22px;
-  background-color: #2c2c2c;
+  background-color: rgb(28, 28, 28);
   display: flex;
   align-items: center;
   gap: 10px;
