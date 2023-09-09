@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode, useState } from "react";
+import { useRef, type ReactNode } from "react";
 import styles from "./community.module.css";
 
 export default function Frame({ children }: { children: ReactNode }) {
