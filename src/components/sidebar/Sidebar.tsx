@@ -2,7 +2,7 @@ import prisma from "@/util/prisma";
 import styles from "./sidebar.module.css";
 
 export default async function Sidebar() {
-  const res = await prisma.community.findMany();
+  const res = await prisma.community.findMany({ take: 5 });
   return (
     <div className={styles.sidebar}>
       <div>
