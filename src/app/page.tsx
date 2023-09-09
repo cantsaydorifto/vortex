@@ -1,3 +1,4 @@
+import PostCard from "@/components/PostCard/PostCard";
 import styles from "./page.module.css";
 import Community from "@/components/home-community/Community";
 import PopularCommunites from "@/components/popularCommunites/PopularCommunites";
@@ -10,7 +11,12 @@ export default function Home() {
       <div className={styles.content}>
         <Community />
         <div>
-          <div></div>
+          <div>
+            <PostCard like={false} dislike={false} post={null} />
+            <PostCard like={false} dislike={false} post={null} />
+            <PostCard like={false} dislike={false} post={null} />
+            <PostCard like={false} dislike={false} post={null} />
+          </div>
           <PopularCommunites />
         </div>
       </div>
