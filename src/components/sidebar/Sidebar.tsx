@@ -1,8 +1,36 @@
-import prisma from "@/util/prisma";
+"use client";
+
 import styles from "./sidebar.module.css";
 
-export default async function Sidebar() {
-  const res = await prisma.community.findMany({ take: 5 });
+export default function Sidebar() {
+  const communitiesToShow: { id: number; icon: string; name: string }[] = [
+    {
+      icon: "https://cdn-icons-png.flaticon.com/512/1099/1099794.png",
+      id: 1,
+      name: "football",
+    },
+    {
+      icon: "https://cdn-icons-png.flaticon.com/512/3659/3659784.png",
+      id: 2,
+      name: "music",
+    },
+    {
+      icon: "https://cdn-icons-png.flaticon.com/512/826/826070.png",
+      id: 3,
+      name: "travel",
+    },
+    {
+      icon: "https://cdn-icons-png.flaticon.com/512/2935/2935307.png",
+      id: 4,
+      name: "coffee",
+    },
+    {
+      icon: "https://uploadthing.com/f/5cb2dc71-561e-4f9e-bd44-2dc7a93ebe1d_cyberpunk2077.png",
+      id: 5,
+      name: "cyberpunk2077",
+    },
+  ];
+  // console.log(res);
   return (
     <div className={styles.sidebar}>
       <div>
@@ -42,7 +70,7 @@ export default async function Sidebar() {
       </div>
       <hr />
       <h2>Communities</h2>
-      {res.map((el) => (
+      {communitiesToShow.map((el) => (
         <div key={el.id}>
           <img src={el.icon} alt={el.name} />
           <span>{el.name[0].toUpperCase() + el.name.slice(1)}</span>
