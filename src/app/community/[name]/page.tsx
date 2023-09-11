@@ -6,6 +6,10 @@ import PostCard from "@/components/PostCard/PostCard";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
 import Link from "next/link";
 
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function getCommunityAndPosts(communityName: string) {
   let userId: number | null = null;
   const following: number[] = [];
@@ -17,6 +21,8 @@ async function getCommunityAndPosts(communityName: string) {
     console.log(err);
   }
   try {
+    await wait(10000);
+    console.log("done");
     const community = await prisma.community.findUnique({
       where: {
         name: communityName,
@@ -111,6 +117,7 @@ export default async function Page({ params }: { params: { name: string } }) {
           {res.posts.map((post) =>
             !res.userInfo ? (
               <PostCard
+                postPage={false}
                 like={false}
                 dislike={false}
                 key={post.id}
@@ -118,6 +125,7 @@ export default async function Page({ params }: { params: { name: string } }) {
               />
             ) : (
               <PostCard
+                postPage={false}
                 like={res.userInfo.userLikes.includes(post.id)}
                 dislike={res.userInfo.userDislikes.includes(post.id)}
                 key={post.id}

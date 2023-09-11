@@ -1,6 +1,45 @@
-.card {
-  background-color: grey;
-  /* padding: 10px 20px; */
+.container {
+  display: flex;
+  margin: 0 auto;
+  /* background-color: red; */
+  justify-content: space-between;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.commentContainer {
+  margin-left: 220px;
+  padding-left: 20px;
+  margin-top: 80px;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.commentContainer > textarea {
+  border: none;
+  height: 100px;
+  font-family: inherit;
+  outline: none;
+  color: white;
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: 12px;
+  width: 840px;
+  background-color: rgb(29, 29, 29);
+}
+
+.commentContainer > button {
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: rgb(69, 69, 150);
+  padding: 15px 25px;
+  border-radius: 8px;
+  width: fit-content;
 }
 
 .task {
@@ -8,7 +47,7 @@
   width: 840px;
   border-radius: 8px;
   min-height: 100px;
-  padding: 15px 15px 8px 15px;
+  padding: 15px 15px 8px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -62,6 +101,8 @@
 
 .actionContainer {
   display: flex;
+  background-color: rgb(32, 32, 32);
+  width: fit-content;
   border-radius: 12px;
   height: 40px;
   align-items: center;
@@ -73,40 +114,13 @@
   animation: 0.2s popup ease-out;
 }
 
-@keyframes popup {
-  0% {
-    opacity: 0;
-    scale: 0.7;
-  }
-  100% {
-    opacity: 1;
-    scale: 1;
-  }
-}
-
 .likeButton {
   all: unset;
   cursor: pointer;
 }
 
-.comment {
-  display: flex;
-  gap: 12px;
-  padding: 0 8px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  border-radius: 12px;
-  color: rgb(122, 122, 122);
-}
-
-.comment:hover {
-  background-color: rgba(126, 126, 126, 0.384);
-}
-
-.postInfo {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  padding-top: 5px;
+.hr {
+  border: 0;
+  width: 840px;
+  border-bottom: 2px solid rgb(41, 41, 41);
 }

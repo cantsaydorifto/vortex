@@ -3,23 +3,33 @@
 import type { Post } from "@prisma/client";
 import styles from "./post.module.css";
 import Like from "./like-buttons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DisLike from "./dislike";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Link from "next/link";
 
 export default function PostCard({
   post,
   like,
   dislike,
+  postPage,
 }: {
-  post: (Post & { author: { username: string } }) | null;
-  like: boolean;
-  dislike: boolean;
+  post:
+    | (Post & { Likes: number; DisLikes: number; author: { username: string } })
+    | null;
+  like?: boolean;
+  dislike?: boolean;
+  postPage: boolean;
 }) {
+  useEffect(() => {
+    setDate(true);
+  }, []);
   const [likeDislikes, setLikeDislike] = useState({
     like,
     dislike,
+    count: post ? post.Likes - post.DisLikes : 0,
   });
+  const [date, setDate] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   if (!post) {
     return (
@@ -38,17 +48,24 @@ export default function PostCard({
         <p>{"content"}</p>
         <div className={styles.actionContainer}>
           <button className={styles.likeButton} onClick={() => null}>
-            <Like liked={likeDislikes.like} />
+            <Like liked={!!likeDislikes.like} />
           </button>
           <button className={styles.likeButton} onClick={() => null}>
-            <DisLike disLiked={likeDislikes.dislike} />
+            <DisLike disLiked={!!likeDislikes.dislike} />
           </button>
         </div>
       </div>
     );
   }
   return (
-    <div className={styles.task} key={post.id}>
+    <div
+      style={{
+        backgroundColor: postPage ? "transparent" : "rgb(28, 28, 28)",
+        paddingLeft: postPage ? "0" : "15px",
+      }}
+      className={styles.task}
+      key={post.id}
+    >
       <div className={styles.postDetails}>
         <span>
           <img
@@ -58,52 +75,84 @@ export default function PostCard({
           <span>{post.author.username}</span>
         </span>
         <span className={styles.relativeTime}>
-          {getRelativeTime(new Date(post.createdAt))}
+          {date ? getRelativeTime(new Date(post.createdAt)) : ""}
         </span>
       </div>
       <p>{post.title}</p>
       <p>{post.content}</p>
-      <div className={styles.actionContainer}>
-        <button
-          className={styles.likeButton}
-          onClick={async () => {
-            const prevState = { ...likeDislikes };
-            if (likeDislikes.dislike)
-              setLikeDislike((prev) => {
-                return { ...prev, dislike: !prev.dislike };
-              });
-            setLikeDislike((prev) => {
-              return { ...prev, like: !prev.like };
-            });
-            try {
-              await axiosPrivate.put("/api/like", { id: post.id });
-            } catch (err) {
-              setLikeDislike(prevState);
-            }
+      <div className={styles.postInfo}>
+        <div
+          style={{
+            backgroundColor: !postPage ? "transparent" : "rgb(32, 32, 32)",
           }}
+          className={styles.actionContainer}
         >
-          <Like liked={likeDislikes.like} />
-        </button>
-        <button
-          className={styles.likeButton}
-          onClick={async () => {
-            const prevState = { ...likeDislikes };
-            if (likeDislikes.like)
+          <span>{likeDislikes.count}</span>
+          <button
+            className={styles.likeButton}
+            onClick={async () => {
+              const prevState = { ...likeDislikes };
+              if (likeDislikes.dislike)
+                setLikeDislike((prev) => {
+                  return {
+                    ...prev,
+                    dislike: !prev.dislike,
+                    count: prev.count + 1,
+                  };
+                });
               setLikeDislike((prev) => {
-                return { ...prev, like: !prev.like };
+                return {
+                  ...prev,
+                  like: !prev.like,
+                  count: prev.count + (!prev.like ? +1 : -1),
+                };
               });
-            setLikeDislike((prev) => {
-              return { ...prev, dislike: !prev.dislike };
-            });
-            try {
-              await axiosPrivate.put("/api/dislike", { id: post.id });
-            } catch (err) {
-              setLikeDislike(prevState);
-            }
+              try {
+                await axiosPrivate.put("/api/like", { id: post.id });
+              } catch (err) {
+                setLikeDislike(prevState);
+              }
+            }}
+          >
+            <Like liked={!!likeDislikes.like} />
+          </button>
+          <button
+            className={styles.likeButton}
+            onClick={async () => {
+              const prevState = { ...likeDislikes };
+              if (likeDislikes.like)
+                setLikeDislike((prev) => {
+                  return { ...prev, like: !prev.like, count: prev.count - 1 };
+                });
+              setLikeDislike((prev) => {
+                return {
+                  ...prev,
+                  dislike: !prev.dislike,
+                  count: prev.count + (!prev.dislike ? -1 : +1),
+                };
+              });
+              try {
+                await axiosPrivate.put("/api/dislike", { id: post.id });
+              } catch (err) {
+                setLikeDislike(prevState);
+              }
+            }}
+          >
+            <DisLike disLiked={!!likeDislikes.dislike} />
+          </button>
+        </div>
+        <Link
+          style={{
+            backgroundColor: !postPage ? "transparent" : "rgb(32, 32, 32)",
           }}
+          href={`/post/${post.id}`}
+          className={styles.comment}
         >
-          <DisLike disLiked={likeDislikes.dislike} />
-        </button>
+          <svg fill="white" height="20" width="20">
+            <path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path>
+          </svg>
+          <span>0</span>
+        </Link>
       </div>
     </div>
   );
