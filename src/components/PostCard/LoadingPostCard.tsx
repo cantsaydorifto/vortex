@@ -2,12 +2,12 @@
 
 import styles from "./post.module.css";
 
-export default function LoadingPostCard() {
+export default function LoadingPostCard({ postPage }: { postPage?: boolean }) {
   return (
     <div
       className={styles.task}
       style={{
-        backgroundColor: "rgb(24,24,24)",
+        backgroundColor: !postPage ? "rgb(24,24,24)" : "transparent",
       }}
       key={"Loading PostCard"}
     >
@@ -24,7 +24,7 @@ export default function LoadingPostCard() {
           <span
             style={{
               borderRadius: "8px",
-              height: "20px",
+              height: "26px",
               width: "70px",
               backgroundColor: "rgb(32,32,32)",
             }}
@@ -33,7 +33,7 @@ export default function LoadingPostCard() {
         <span
           style={{
             borderRadius: "8px",
-            height: "30px",
+            height: "26px",
             width: "70px",
             backgroundColor: "rgb(32,32,32)",
           }}
@@ -50,8 +50,8 @@ export default function LoadingPostCard() {
       <p
         style={{
           borderRadius: "8px",
-          height: "80px",
-          width: "800px",
+          height: "40px",
+          width: "100%",
           backgroundColor: "rgb(32,32,32)",
         }}
       />
@@ -59,8 +59,8 @@ export default function LoadingPostCard() {
         <span
           style={{
             borderRadius: "8px",
-            height: "40px",
-            width: "82px",
+            height: "26px",
+            width: "70px",
             backgroundColor: "rgb(32,32,32)",
           }}
           className={styles.actionContainer}
@@ -68,8 +68,8 @@ export default function LoadingPostCard() {
         <span
           style={{
             borderRadius: "8px",
-            height: "40px",
-            width: "60px",
+            height: "26px",
+            width: "70px",
             backgroundColor: "rgb(32,32,32)",
           }}
         />

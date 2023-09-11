@@ -41,6 +41,9 @@ async function getCommunityAndPosts(communityName: string) {
         Likes: { select: { userId: true } },
         DisLikes: { select: { userId: true } },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     const posts = postRes.map((post) => ({
       ...post,

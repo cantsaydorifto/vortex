@@ -5,7 +5,8 @@
 
 .task {
   position: relative;
-  width: 840px;
+  max-width: 800px;
+  width: 100%;
   border-radius: 8px;
   min-height: 100px;
   padding: 15px 15px 8px 15px;
@@ -37,7 +38,8 @@
 
 .postDetails {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 10px;
   font-weight: 300;
 }
 

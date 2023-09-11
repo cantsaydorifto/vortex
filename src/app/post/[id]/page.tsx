@@ -5,6 +5,10 @@ import { authRefreshVerify } from "@/util/authRefreshVerify";
 import prisma from "@/util/prisma";
 import Comments from "./Comments";
 
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function getCommunityAndPosts(postId: number) {
   let userId: number | null = null;
   console.log(postId);
@@ -15,6 +19,7 @@ async function getCommunityAndPosts(postId: number) {
     // console.log(err);
   }
   try {
+    await wait(100000);
     const [postRes, commentRes] = await prisma.$transaction([
       prisma.post.findUnique({
         where: { id: postId },
