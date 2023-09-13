@@ -8,6 +8,7 @@ export default function LoadingPostCard({ postPage }: { postPage?: boolean }) {
       className={styles.task}
       style={{
         backgroundColor: !postPage ? "rgb(24,24,24)" : "transparent",
+        paddingLeft: !postPage ? "15px" : "0",
       }}
       key={"Loading PostCard"}
     >

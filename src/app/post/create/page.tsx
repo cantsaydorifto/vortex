@@ -158,7 +158,7 @@ export default function CreatePost() {
                 setLoading(false);
                 router.push(`/community/${community!.name}`);
               } catch (err: any) {
-                setTimeout(() => {  
+                setTimeout(() => {
                   setErr(null);
                 }, 3000);
                 setLoading(false);
