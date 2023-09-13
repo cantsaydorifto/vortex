@@ -10,7 +10,7 @@
 
 .comInfoContainer {
   margin-left: 200px;
-  padding-left: 20px;
+  padding: 0 20px;
   margin-top: 80px;
   height: fit-content;
   width: 100%;
@@ -56,14 +56,20 @@
   width: 100%;
 }
 
-.comInfo > div > button {
+.joinCommunityButton {
   background-color: rgb(83, 83, 179);
   color: white;
   border: none;
   padding: 6px 12px;
   cursor: pointer;
+  width: fit-content;
+  height: fit-content;
   border-radius: 18px;
   animation: pop 0.1s ease-in-out;
+}
+
+.hiddenJoinCommunityButton {
+  display: none;
 }
 
 @keyframes pop {
@@ -114,7 +120,13 @@
   gap: 40px;
 }
 
-.postContainer > div:nth-child(1) > div > img {
+.postContainer > div:nth-child(1) > div {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.postContainer > div:nth-child(1) > div > div > img {
   width: 50px;
   height: 50px;
 }
@@ -122,16 +134,16 @@
 .postContainer > div:nth-child(1) {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
 }
 
-.postContainer > div:nth-child(1) > div {
+.postContainer > div:nth-child(1) > div > div {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.postContainer > div:nth-child(1) > div > span {
+.postContainer > div:nth-child(1) > div > div > span {
   font-size: 1.6rem;
 }
 
@@ -140,6 +152,7 @@
   background-color: rgba(72, 72, 72, 0.494);
   width: fit-content;
   padding: 8px;
+  margin-top: 30px;
   border-radius: 20px;
   align-items: center;
   gap: 10px;
@@ -154,4 +167,23 @@
 .postContainer > div:nth-child(1) > a > img {
   width: 25px;
   height: 25px;
+}
+
+@media only screen and (max-width: 1300px) {
+  .comInfoContainer {
+    margin-left: 0;
+    padding: 0 40px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .comInfo {
+    display: none;
+  }
+  .postContainer {
+    width: 100%;
+  }
+  .hiddenJoinCommunityButton {
+    display: block;
+  }
 }

@@ -1,6 +1,7 @@
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./postPage.module.css";
 import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
+import React from "react";
 
 export default function Loading() {
   return (
@@ -34,10 +35,10 @@ export default function Loading() {
           }}
         ></span>
         {[1, 2, 3, 4, 5].map((el) => (
-          <>
+          <React.Fragment key={el}>
             <hr className={styles.hr} />
             <LoadingPostCard postPage={true} key={el} />
-          </>
+          </React.Fragment>
         ))}
       </div>
     </main>

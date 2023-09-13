@@ -19,7 +19,7 @@ async function getCommunityAndPosts(postId: number) {
     // console.log(err);
   }
   try {
-    await wait(100000);
+    await wait(1000);
     const [postRes, commentRes] = await prisma.$transaction([
       prisma.post.findUnique({
         where: { id: postId },

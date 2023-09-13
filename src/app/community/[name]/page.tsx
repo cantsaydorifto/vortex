@@ -5,6 +5,7 @@ import prisma from "@/util/prisma";
 import PostCard from "@/components/PostCard/PostCard";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
 import Link from "next/link";
+import JoinCommunityButton from "./JoinCommunityButton";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -21,8 +22,8 @@ async function getCommunityAndPosts(communityName: string) {
     console.log(err);
   }
   try {
-    await wait(10000);
-    console.log("done");
+    // await wait(10000);
+    // console.log("done");
     const community = await prisma.community.findUnique({
       where: {
         name: communityName,
@@ -103,12 +104,20 @@ export default async function Page({ params }: { params: { name: string } }) {
         <div className={styles.postContainer}>
           <div>
             <div>
-              <img src={res.community.icon} alt={res.community.name} />
-              <span>
-                {res.community.name[0].toUpperCase() +
-                  res.community.name.slice(1)}
-              </span>
+              <div>
+                <img src={res.community.icon} alt={res.community.name} />
+                <span>
+                  {res.community.name[0].toUpperCase() +
+                    res.community.name.slice(1)}
+                </span>
+              </div>
+              <JoinCommunityButton
+                hidden={true}
+                following={res.following.includes(res.community.id)}
+                id={res.community.id}
+              />
             </div>
+            <p>{res.community.description} </p>
             <Link href="/post/create">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/1828/1828575.png"
