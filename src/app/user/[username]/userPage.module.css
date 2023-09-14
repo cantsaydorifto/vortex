@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  padding-top: 60px;
+  min-height: 100vh;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.pageContainer {
+  margin-left: 200px;
+  padding: 20px 20px 0 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.postContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px;
+  gap: 40px;
+}
+
+.userContainer {
+  width: 100%;
+  padding-left: 10px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  /* background-color: grey; */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userContainer > span {
+  display: flex;
+  align-items: center;
+  /* flex-direction: column; */
+  width: fit-content;
+  gap: 12px;
+}
+
+.userContainer > span > span {
+  font-size: 1.4rem;
+}
+
+.userContainer > span > img {
+  height: 50px;
+  width: 50px;
+}
+
+.follow {
+  display: flex;
+  gap: 20px;
+}
+
+.follow > p {
+  display: flex;
+  gap: 6px;
+}
+
+.follow span {
+  color: rgb(95, 95, 95);
+}
+
+.userContainer > div:nth-child(3) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+}
+
+.userContainer > div:nth-child(3) > img {
+  width: 20px;
+  height: 20px;
+}
+
+.joinCommunityButton {
+  background-color: rgb(83, 83, 179);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-left: 20px;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 18px;
+  animation: pop 0.1s ease-in-out;
+}
+
+@media only screen and (max-width: 1300px) {
+  .pageContainer {
+    margin-left: 0;
+  }
+}
