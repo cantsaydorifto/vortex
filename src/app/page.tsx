@@ -12,10 +12,11 @@ export default function Home() {
         <Community />
         <div>
           <div>
-            <PostCard like={false} dislike={false} post={null} />
-            <PostCard like={false} dislike={false} post={null} />
-            <PostCard like={false} dislike={false} post={null} />
-            <PostCard like={false} dislike={false} post={null} />
+            <PostCard postPage={false} post={null} />
+            <PostCard postPage={false} post={null} />
+            <PostCard postPage={false} post={null} />
+            <PostCard postPage={false} post={null} />
+            <PostCard postPage={false} post={null} />
           </div>
           <PopularCommunites />
         </div>
