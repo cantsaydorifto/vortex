@@ -72,6 +72,12 @@
   display: none;
 }
 
+.postContainer > div:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 @keyframes pop {
   0% {
     opacity: 0;
@@ -120,31 +126,13 @@
   gap: 40px;
 }
 
-.postContainer > div:nth-child(1) > div {
-  display: flex;
-  gap: 30px;
-  align-items: center;
+.postContainer > div:nth-child(1) > a:hover {
+  background-color: rgba(91, 91, 91, 0.494);
 }
 
-.postContainer > div:nth-child(1) > div > div > img {
-  width: 50px;
-  height: 50px;
-}
-
-.postContainer > div:nth-child(1) {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.postContainer > div:nth-child(1) > div > div {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.postContainer > div:nth-child(1) > div > div > span {
-  font-size: 1.6rem;
+.postContainer > div:nth-child(1) > a > img {
+  width: 25px;
+  height: 25px;
 }
 
 .postContainer > div:nth-child(1) > a {
@@ -158,15 +146,6 @@
   gap: 10px;
   font-size: 0.8rem;
   transition: all 0.3s;
-}
-
-.postContainer > div:nth-child(1) > a:hover {
-  background-color: rgba(91, 91, 91, 0.494);
-}
-
-.postContainer > div:nth-child(1) > a > img {
-  width: 25px;
-  height: 25px;
 }
 
 @media only screen and (max-width: 1300px) {

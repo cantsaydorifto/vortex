@@ -42,7 +42,8 @@
   font-weight: 300;
 }
 
-.postDetails > span {
+.postDetails > span,
+.postDetails > a {
   display: flex;
   gap: 8px;
   align-items: center;

@@ -26,6 +26,17 @@ model User {
   Comment            Comment[]
   CommentLike        CommentLike[]
   CommentDisLike     CommentDisLike[]
+  Follower           Follow[]             @relation("UserFollowers")
+  Following          Follow[]             @relation("UserFollowing")
+}
+
+model Follow {
+  followerId  Int
+  followingId Int
+  Follower    User @relation("UserFollowers", fields: [followerId], references: [id])
+  Following   User @relation("UserFollowing", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId])
 }
 
 model FollowingCommunity {

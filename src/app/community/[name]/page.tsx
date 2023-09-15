@@ -4,8 +4,8 @@ import CommunityInfo from "./CommunityInfo";
 import prisma from "@/util/prisma";
 import PostCard from "@/components/PostCard/PostCard";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
+import CommunityDescription from "./CommunityDescription";
 import Link from "next/link";
-import JoinCommunityButton from "./JoinCommunityButton";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -103,21 +103,10 @@ export default async function Page({ params }: { params: { name: string } }) {
       <div className={styles.comInfoContainer}>
         <div className={styles.postContainer}>
           <div>
-            <div>
-              <div>
-                <img src={res.community.icon} alt={res.community.name} />
-                <span>
-                  {res.community.name[0].toUpperCase() +
-                    res.community.name.slice(1)}
-                </span>
-              </div>
-              <JoinCommunityButton
-                hidden={true}
-                following={res.following.includes(res.community.id)}
-                id={res.community.id}
-              />
-            </div>
-            <p>{res.community.description} </p>
+            <CommunityDescription
+              community={res.community}
+              following={res.following}
+            />
             <Link href="/post/create">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/1828/1828575.png"

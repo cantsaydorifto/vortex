@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  padding-top: 60px;
+  min-height: 100vh;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.pageContainer {
+  margin-left: 200px;
+  padding: 20px 20px 0 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.followingCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 50%;
+  border-radius: 16px;
+  background-color: #1c1c1c;
+  padding: 10px;
+}
+
+.followingCard > img {
+  height: 40px;
+  width: 40px;
+}
+
+.followingContainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  gap: 30px;
+}
+
+.followingContainer > div {
+  background-color: #1c1c1c;
+  padding: 20px 8px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

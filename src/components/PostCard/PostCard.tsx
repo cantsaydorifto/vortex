@@ -67,13 +67,13 @@ export default function PostCard({
       key={post.id}
     >
       <div className={styles.postDetails}>
-        <span>
+        <Link href={`/user/${post.author.username}`}>
           <img
             src="https://cdn-icons-png.flaticon.com/512/848/848006.png"
             alt={post.author.username}
           />
           <span>{post.author.username}</span>
-        </span>
+        </Link>
         <span className={styles.relativeTime}>
           {date ? getRelativeTime(new Date(post.createdAt)) : ""}
         </span>
