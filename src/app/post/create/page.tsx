@@ -130,7 +130,7 @@ export default function CreatePost() {
               id="content"
               value={postInfo.content}
               className={styles.desc}
-              maxLength={240}
+              maxLength={500}
               onChange={(event) =>
                 setPostInfo((prev) => {
                   return { ...prev, content: event.target.value };
