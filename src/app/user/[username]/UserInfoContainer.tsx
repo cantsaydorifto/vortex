@@ -2,6 +2,7 @@
 import { useState } from "react";
 import styles from "./userPage.module.css";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Link from "next/link";
 
 export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
   const [follow, setFollow] = useState({
@@ -47,7 +48,8 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
           <span>{follow.followers}</span> Followers
         </p>
         <p>
-          <span>{userInfo.following}</span> Communites
+          <span>{userInfo.following}</span>{" "}
+          <Link href={`/user/${userInfo.username}/following`}>Following</Link>
         </p>
       </div>
       <div>

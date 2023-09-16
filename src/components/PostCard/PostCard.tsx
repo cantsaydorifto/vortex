@@ -167,10 +167,11 @@ export default function PostCard({
         {!!showPost && (
           <div className={styles.comDetails}>
             <span>Community :</span>
-            <span>
+            <Link href={`/community/${post.Community.name}`}>
               <img src={post.Community.icon} alt={post.Community.name} />
-              {post.Community.name}
-            </span>
+              {post.Community.name[0].toUpperCase() +
+                post.Community.name.slice(1)}
+            </Link>
           </div>
         )}
       </div>
