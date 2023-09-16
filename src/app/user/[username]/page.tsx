@@ -57,6 +57,13 @@ async function getUserPageInfo(username: string) {
               username: true,
             },
           },
+          Community: {
+            select: {
+              id: true,
+              name: true,
+              icon: true,
+            },
+          },
           Likes: { select: { userId: true } },
           DisLikes: { select: { userId: true } },
         },
@@ -171,6 +178,7 @@ export default async function Page({
               post={el}
               postPage={false}
               key={el.id}
+              showPost={true}
               like={res.userInfo.userLikes?.includes(el.id)}
               dislike={res.userInfo.userDislikes?.includes(el.id)}
             />

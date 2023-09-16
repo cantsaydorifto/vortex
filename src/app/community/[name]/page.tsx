@@ -39,6 +39,13 @@ async function getCommunityAndPosts(communityName: string) {
             username: true,
           },
         },
+        Community: {
+          select: {
+            id: true,
+            icon: true,
+            name: true,
+          },
+        },
         Likes: { select: { userId: true } },
         DisLikes: { select: { userId: true } },
       },
@@ -120,6 +127,7 @@ export default async function Page({ params }: { params: { name: string } }) {
               <PostCard
                 postPage={false}
                 like={false}
+                showPost={false}
                 dislike={false}
                 key={post.id}
                 post={post}
@@ -127,6 +135,7 @@ export default async function Page({ params }: { params: { name: string } }) {
             ) : (
               <PostCard
                 postPage={false}
+                showPost={false}
                 like={res.userInfo.userLikes.includes(post.id)}
                 dislike={res.userInfo.userDislikes.includes(post.id)}
                 key={post.id}

@@ -29,6 +29,13 @@ async function getCommunityAndPosts(postId: number) {
               username: true,
             },
           },
+          Community: {
+            select: {
+              id: true,
+              icon: true,
+              name: true,
+            },
+          },
           Likes: { select: { userId: true } },
           DisLikes: { select: { userId: true } },
         },
@@ -99,6 +106,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           dislike={res.post?.hasUserDisLiked}
           post={res.post}
           postPage={true}
+          showPost={true}
         />
         <Comments postId={res.postId} comments={res.comments} />
       </div>

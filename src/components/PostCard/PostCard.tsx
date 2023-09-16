@@ -13,12 +13,23 @@ export default function PostCard({
   like,
   dislike,
   postPage,
+  showPost,
 }: {
   post:
-    | (Post & { Likes: number; DisLikes: number; author: { username: string } })
+    | (Post & {
+        Likes: number;
+        DisLikes: number;
+        Community: {
+          id: number;
+          name: string;
+          icon: string;
+        };
+        author: { username: string };
+      })
     | null;
   like?: boolean;
   dislike?: boolean;
+  showPost: boolean;
   postPage: boolean;
 }) {
   useEffect(() => {
@@ -153,6 +164,15 @@ export default function PostCard({
           </svg>
           <span>0</span>
         </Link>
+        {!!showPost && (
+          <div className={styles.comDetails}>
+            <span>Community :</span>
+            <span>
+              <img src={post.Community.icon} alt={post.Community.name} />
+              {post.Community.name}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -179,7 +199,7 @@ function getRelativeTime(timeStamp: Date) {
   }
   if (secondsPast <= 2628000) {
     const daysAgo = Math.floor(secondsPast / 86400);
-    return daysAgo > 1 ? `${daysAgo} days ago` : `${daysAgo} da ago`;
+    return daysAgo > 1 ? `${daysAgo} days ago` : `${daysAgo} day ago`;
   }
   if (secondsPast <= 31536000) {
     const monthsAgo = Math.floor(secondsPast / 2628000);

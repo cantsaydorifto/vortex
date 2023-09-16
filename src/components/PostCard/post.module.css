@@ -24,6 +24,34 @@
   }
 }
 
+.comDetails {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comDetails > span:nth-child(2) {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  background-color: #3e3e3e7e;
+  padding: 10px;
+  gap: 5px;
+}
+
+.comDetails > span:nth-child(1) {
+  color: #7a7a7a;
+}
+
+.comDetails > span:nth-child(3) {
+  background-color: rgb(64, 64, 64);
+}
+
+.comDetails img {
+  width: 25px;
+  height: 25px;
+}
+
 .task > p:nth-child(2) {
   padding-right: 20px;
   font-size: 1.3rem;
