@@ -1,7 +1,10 @@
 .frameContainer {
-  width: 1100px;
+  width: 1070px;
   position: relative;
   overflow: hidden;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  animation: pop 0.2s ease-in-out;
 }
 
 .frameContainer > button {
@@ -75,4 +78,33 @@
 .frameElement > div > img {
   width: 25px;
   height: 25px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .frameContainer {
+    width: 800px;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .frameContainer {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .frame > div,
+  .frameElement {
+    width: 220px;
+    height: 180px;
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

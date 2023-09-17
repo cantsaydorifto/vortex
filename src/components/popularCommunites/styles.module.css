@@ -36,3 +36,13 @@
   height: 25px;
   width: 25px;
 }
+
+.loadingCommunity {
+  width: 100%;
+}
+
+@media only screen and (max-width: 1150px) {
+  .popularCommunites {
+    display: none;
+  }
+}

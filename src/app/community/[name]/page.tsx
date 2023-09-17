@@ -6,6 +6,7 @@ import PostCard from "@/components/PostCard/PostCard";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
 import CommunityDescription from "./CommunityDescription";
 import Link from "next/link";
+import CreatePost from "@/components/CreateButton/CreatePost";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -114,13 +115,7 @@ export default async function Page({ params }: { params: { name: string } }) {
               community={res.community}
               following={res.following}
             />
-            <Link href="/post/create">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/1828/1828575.png"
-                alt=""
-              />
-              <span>Create Post</span>
-            </Link>
+            <CreatePost />
           </div>
           {res.posts.map((post) =>
             !res.userInfo ? (

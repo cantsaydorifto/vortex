@@ -1,12 +1,32 @@
+.main {
+  animation: pop 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 70px;
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .formContainer {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   font-size: 1.2rem;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   margin: 20px auto;
   gap: 20px;
 }
@@ -70,7 +90,8 @@
 }
 
 .container {
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
   margin: auto;
   display: flex;
   gap: 200px;
@@ -80,6 +101,7 @@
   width: 500px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 50px;
 }
 
@@ -101,6 +123,16 @@
 .form > div:nth-child(3) > div > label {
   font-size: 1rem;
   background-color: rgb(34, 34, 34);
+}
+
+.noImageContainer {
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid grey;
+  border-radius: 12px;
 }
 
 .form > div:nth-child(3) > div > div > p {
@@ -129,4 +161,39 @@
   background-color: rgb(69, 69, 150);
   padding: 15px 25px;
   border-radius: 8px;
+}
+
+@media only screen and (max-width: 1250px) {
+  .container {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px;
+  }
+  .form {
+    padding: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .imageContainer {
+    width: 100%;
+    padding: 0 15px;
+  }
+  .noImageContainer {
+    width: 350px;
+    height: 200px;
+  }
+  .imageContainer > img {
+    width: 350px;
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .noImageContainer {
+    width: 100%;
+  }
+  .imageContainer > img {
+    width: 100%;
+  }
 }

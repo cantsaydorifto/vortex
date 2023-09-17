@@ -6,6 +6,7 @@
   margin: auto;
   padding: 0 20px;
   gap: 100px;
+  animation: pop 0.2s ease-in-out;
 }
 
 .main button {
@@ -56,10 +57,10 @@
   color: rgb(219, 108, 108);
   height: 20px;
   margin-bottom: 10px;
-  animation: error forwards 0.2s ease-in-out;
+  animation: pop forwards 0.2s ease-in-out;
 }
 
-@keyframes error {
+@keyframes pop {
   0% {
     opacity: 0;
   }

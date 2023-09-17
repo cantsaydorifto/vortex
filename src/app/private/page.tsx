@@ -49,18 +49,8 @@ export default function Home() {
       // console.error(err.response.data.message);
     }
   }
-
-  if (!auth.user) return <h1>NOT LOGGED IN</h1>;
   return (
-    <main
-      style={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: "20px",
-        marginTop: "70px",
-      }}
-    >
+    <main className={styles.main}>
       <h1 className={styles.heading}>Create Community</h1>
       {
         <p key={err} className={styles.error}>
@@ -75,47 +65,71 @@ export default function Home() {
         <div className={styles.imageContainer}>
           <h2>Community Image</h2>
           {communityInfo.imageSrc !== "" ? (
-            <img src={communityInfo.imageSrc} alt="aaaa" />
+            <img src={communityInfo.imageSrc} alt="Select an Image" />
           ) : (
-            <div
-              style={{
-                width: "500px",
-                height: "300px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "1px solid grey",
-                borderRadius: "12px",
-              }}
-            >
+            <div className={styles.noImageContainer}>
               <img
                 style={{ width: "50px", height: "50px" }}
                 src="https://cdn-icons-png.flaticon.com/512/6939/6939131.png"
               />
             </div>
           )}
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              console.log("Files: ", res);
-              if (res)
-                setCommunityInfo((prev) => {
-                  return { ...prev, imageSrc: res[0].fileUrl };
-                });
-              alert("Upload Completed");
-            }}
-            onUploadError={(error: Error) => {
-              alert(`ERROR! ${error.message}`);
-            }}
-          />
+          {auth.user ? (
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                console.log("Files: ", res);
+                if (res)
+                  setCommunityInfo((prev) => {
+                    return { ...prev, imageSrc: res[0].fileUrl };
+                  });
+                alert("Upload Completed");
+              }}
+              onUploadError={(error: Error) => {
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
+          ) : (
+            <button
+              disabled={true}
+              style={{
+                cursor: "not-allowed",
+                width: "144px",
+                height: "40px",
+                backgroundColor: "#222222",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                fontFamily: "inherit",
+                fontSize: "1rem",
+              }}
+            >
+              Choose File
+            </button>
+          )}
         </div>
       </div>
-      <button
-        onClick={createCommunity}
-        className={styles.createCommunityButton}
-      >
-        Create
-      </button>
+      {auth.user ? (
+        <button
+          disabled={loading}
+          onClick={createCommunity}
+          className={styles.createCommunityButton}
+        >
+          Create
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            setErr("Log In To Create Communities");
+            setTimeout(() => {
+              setErr(null);
+            }, 3000);
+          }}
+          className={styles.createCommunityButton}
+        >
+          Log In to Create
+        </button>
+      )}
     </main>
   );
 }

@@ -22,7 +22,7 @@ export default function Loading() {
           style={{
             borderRadius: "8px",
             height: "100px",
-            width: "840px",
+            width: "100%",
             backgroundColor: "rgb(32,32,32)",
           }}
         />

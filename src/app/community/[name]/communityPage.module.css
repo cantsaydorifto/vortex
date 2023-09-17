@@ -16,6 +16,7 @@
   width: 100%;
   display: flex;
   gap: 20px;
+  animation: pop 0.2s ease-in-out;
 }
 
 .comInfo {
@@ -126,26 +127,8 @@
   gap: 40px;
 }
 
-.postContainer > div:nth-child(1) > a:hover {
-  background-color: rgba(91, 91, 91, 0.494);
-}
-
-.postContainer > div:nth-child(1) > a > img {
-  width: 25px;
-  height: 25px;
-}
-
 .postContainer > div:nth-child(1) > a {
-  display: flex;
-  background-color: rgba(72, 72, 72, 0.494);
-  width: fit-content;
-  padding: 8px;
-  margin-top: 30px;
-  border-radius: 20px;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.8rem;
-  transition: all 0.3s;
+  margin-top: 15px;
 }
 
 @media only screen and (max-width: 1300px) {

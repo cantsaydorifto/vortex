@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import styles from "./community.module.css";
 
 export default function Frame({ children }: { children: ReactNode }) {
+  const frameContainerRef = useRef<HTMLDivElement>(null);
   const lRef = useRef<HTMLButtonElement>(null);
   const rRef = useRef<HTMLButtonElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -14,11 +15,13 @@ export default function Frame({ children }: { children: ReactNode }) {
     let moved = 0;
     return function (right: boolean) {
       let totalMovement = 0;
-      if (!frameRef.current) return;
+      if (!frameRef.current || !frameContainerRef.current) return;
       const width = frameRef.current.clientWidth;
+      const FRAME_WIDTH = frameContainerRef.current.clientWidth;
+      console.log("FRAME_WIDTH: ", FRAME_WIDTH);
       const availableL = moved;
-      const availableR = width - 1100 - moved;
-      const toMove = 400;
+      const availableR = width - FRAME_WIDTH - moved;
+      const toMove = FRAME_WIDTH > 600 ? 400 : 200;
       if (right) {
         toMove > availableR
           ? (totalMovement = availableR)
@@ -39,7 +42,7 @@ export default function Frame({ children }: { children: ReactNode }) {
       } else {
         lRef.current && (lRef.current.style.display = "block");
       }
-      if (moved === width - 1100) {
+      if (moved === width - FRAME_WIDTH) {
         rRef.current && (rRef.current.style.display = "none");
       } else {
         rRef.current && (rRef.current.style.display = "block");
@@ -48,7 +51,7 @@ export default function Frame({ children }: { children: ReactNode }) {
   })();
 
   return (
-    <div className={styles.frameContainer}>
+    <div ref={frameContainerRef} className={styles.frameContainer}>
       <button
         style={{ display: "none" }}
         ref={lRef}
