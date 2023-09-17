@@ -5,7 +5,6 @@ import prisma from "@/util/prisma";
 import PostCard from "@/components/PostCard/PostCard";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
 import CommunityDescription from "./CommunityDescription";
-import Link from "next/link";
 import CreatePost from "@/components/CreateButton/CreatePost";
 
 function wait(ms: number) {

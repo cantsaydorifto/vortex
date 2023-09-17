@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "./userPage.module.css";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
 
 export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
   const [follow, setFollow] = useState({
@@ -11,6 +12,7 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
   });
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
+  const { auth } = useAuth();
   return (
     <div className={styles.userContainer}>
       <span>
@@ -18,30 +20,42 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
         <span>
           {userInfo.username[0].toUpperCase() + userInfo.username.slice(1)}
         </span>
-        <button
-          className={styles.joinCommunityButton}
-          disabled={loading}
-          onClick={async () => {
-            const prevState = follow;
-            console.log(prevState);
-            try {
-              setLoading(true);
-              setFollow((prev) => ({
-                ...prev,
-                doesUserFollow: !prev.doesUserFollow,
-                followers: prev.followers + (prev.doesUserFollow ? -1 : +1),
-              }));
-              await axiosPrivate.put("/api/user/follow/" + userInfo.userId);
-              setLoading(false);
-            } catch (err) {
-              // console.log(err);
-              setFollow(prevState);
-              setLoading(false);
-            }
-          }}
-        >
-          {follow.doesUserFollow ? "UnFollow" : "Follow"}
-        </button>
+        {auth.user ? (
+          <button
+            className={styles.joinCommunityButton}
+            disabled={loading}
+            onClick={async () => {
+              const prevState = follow;
+              console.log(prevState);
+              try {
+                setLoading(true);
+                setFollow((prev) => ({
+                  ...prev,
+                  doesUserFollow: !prev.doesUserFollow,
+                  followers: prev.followers + (prev.doesUserFollow ? -1 : +1),
+                }));
+                await axiosPrivate.put("/api/user/follow/" + userInfo.userId);
+                setLoading(false);
+              } catch (err) {
+                // console.log(err);
+                setFollow(prevState);
+                setLoading(false);
+              }
+            }}
+          >
+            {follow.doesUserFollow ? "UnFollow" : "Follow"}
+          </button>
+        ) : (
+          <button
+            disabled={true}
+            style={{
+              cursor: "not-allowed",
+            }}
+            className={styles.joinCommunityButton}
+          >
+            Follow
+          </button>
+        )}
       </span>
       <div className={styles.follow}>
         <p>

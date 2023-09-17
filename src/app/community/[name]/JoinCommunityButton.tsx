@@ -3,6 +3,7 @@
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useState } from "react";
 import styles from "./communityPage.module.css";
+import useAuth from "@/hooks/useAuth";
 
 export default function JoinCommunityButton({
   following,
@@ -14,9 +15,10 @@ export default function JoinCommunityButton({
   hidden: boolean;
 }) {
   const axiosPrivate = useAxiosPrivate();
+  const { auth } = useAuth();
   const [follow, setFollow] = useState(following);
   const [loading, setLoading] = useState(false);
-  return (
+  return auth.user ? (
     <button
       disabled={loading}
       key={!follow ? "Join" : "Leave"}
@@ -38,6 +40,18 @@ export default function JoinCommunityButton({
       }}
     >
       {!follow ? "Join" : "Leave"}
+    </button>
+  ) : (
+    <button
+      disabled={true}
+      style={{
+        cursor: "not-allowed",
+      }}
+      className={`${styles.joinCommunityButton}${
+        hidden ? " " + styles.hiddenJoinCommunityButton : ""
+      }`}
+    >
+      Join
     </button>
   );
 }
