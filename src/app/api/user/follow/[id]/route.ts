@@ -12,7 +12,7 @@ export async function PUT(
     }
     const user = await authVerify();
 
-    const existingFollow = await prisma.follow.findUnique({
+    const existingFollow = await prisma.vortex_Follow.findUnique({
       where: {
         followerId_followingId: {
           followerId: user.id,
@@ -22,7 +22,7 @@ export async function PUT(
     });
 
     if (existingFollow) {
-      await prisma.follow.delete({
+      await prisma.vortex_Follow.delete({
         where: {
           followerId_followingId: {
             followerId: user.id,
@@ -33,7 +33,7 @@ export async function PUT(
       return NextResponse.json({ message: "Unfollowed User" }, { status: 200 });
     }
 
-    await prisma.follow.create({
+    await prisma.vortex_Follow.create({
       data: {
         followerId: user.id,
         followingId: Number(params.id),

@@ -1,5 +1,5 @@
 "use client";
-import type { Community } from "@prisma/client";
+import type { vortex_Community as Community } from "@prisma/client";
 import styles from "./communityPage.module.css";
 import JoinCommunityButton from "./JoinCommunityButton";
 

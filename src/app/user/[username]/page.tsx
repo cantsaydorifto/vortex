@@ -16,7 +16,7 @@ async function getUserPageInfo(username: string) {
     console.log(err);
   }
   try {
-    const userPageData = await prisma.user.findUnique({
+    const userPageData = await prisma.vortex_User.findUnique({
       where: {
         username,
       },
@@ -42,12 +42,12 @@ async function getUserPageInfo(username: string) {
     }
 
     const [followers, postRes] = await prisma.$transaction([
-      prisma.follow.count({
+      prisma.vortex_Follow.count({
         where: {
           followingId: userPageData.id,
         },
       }),
-      prisma.post.findMany({
+      prisma.vortex_Post.findMany({
         where: {
           authorId: userPageData.id,
         },
@@ -96,7 +96,7 @@ async function getUserPageInfo(username: string) {
       };
     }
     const [userLikes, userDislikes, follow] = await prisma.$transaction([
-      prisma.likes.findMany({
+      prisma.vortex_Likes.findMany({
         where: {
           userId,
           Post: {
@@ -107,7 +107,7 @@ async function getUserPageInfo(username: string) {
           postId: true,
         },
       }),
-      prisma.disLikes.findMany({
+      prisma.vortex_DisLikes.findMany({
         where: {
           userId,
           Post: {
@@ -118,7 +118,7 @@ async function getUserPageInfo(username: string) {
           postId: true,
         },
       }),
-      prisma.follow.findUnique({
+      prisma.vortex_Follow.findUnique({
         where: {
           followerId_followingId: {
             followerId: userId,

@@ -14,7 +14,7 @@ export const authRefreshVerify = async () => {
     if (err) throw { status: 403, message: "Invalid Token" };
   });
 
-  const userRefreshToken = await prisma.refreshToken.findUnique({
+  const userRefreshToken = await prisma.vortex_RefreshToken.findUnique({
     where: {
       token: refreshToken,
     },

@@ -21,7 +21,7 @@ export async function PUT(request: Request) {
       throw { status: 400, message: postInfo.error.issues[0].message };
 
     const [existingLike, existingDislike] = await prisma.$transaction([
-      prisma.likes.findUnique({
+      prisma.vortex_Likes.findUnique({
         where: {
           userId_postId: {
             postId: postInfo.data.id,
@@ -29,7 +29,7 @@ export async function PUT(request: Request) {
           },
         },
       }),
-      prisma.disLikes.findUnique({
+      prisma.vortex_DisLikes.findUnique({
         where: {
           userId_postId: {
             postId: postInfo.data.id,
@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
     ]);
 
     if (existingLike) {
-      await prisma.likes.delete({
+      await prisma.vortex_Likes.delete({
         where: {
           userId_postId: {
             postId: postInfo.data.id,
@@ -55,7 +55,7 @@ export async function PUT(request: Request) {
     }
 
     if (!existingDislike) {
-      await prisma.likes.create({
+      await prisma.vortex_Likes.create({
         data: {
           postId: postInfo.data.id,
           userId: user.id,
@@ -65,7 +65,7 @@ export async function PUT(request: Request) {
     }
 
     await prisma.$transaction([
-      prisma.disLikes.delete({
+      prisma.vortex_DisLikes.delete({
         where: {
           userId_postId: {
             postId: postInfo.data.id,
@@ -73,7 +73,7 @@ export async function PUT(request: Request) {
           },
         },
       }),
-      prisma.likes.create({
+      prisma.vortex_Likes.create({
         data: {
           postId: postInfo.data.id,
           userId: user.id,

@@ -23,7 +23,7 @@ async function getNewestPosts() {
     console.log(err);
   }
   try {
-    const postRes = await prisma.post.findMany({
+    const postRes = await prisma.vortex_Post.findMany({
       orderBy: {
         createdAt: "desc",
       },
@@ -56,7 +56,7 @@ async function getNewestPosts() {
     }
 
     const [userLikes, userDislikes] = await prisma.$transaction([
-      prisma.likes.findMany({
+      prisma.vortex_Likes.findMany({
         where: {
           userId,
         },
@@ -64,7 +64,7 @@ async function getNewestPosts() {
           postId: true,
         },
       }),
-      prisma.disLikes.findMany({
+      prisma.vortex_DisLikes.findMany({
         where: {
           userId,
         },

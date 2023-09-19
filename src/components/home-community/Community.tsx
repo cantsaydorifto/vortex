@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./community.module.css";
 
 export default async function Community() {
-  const res = await prisma.community.findMany();
+  const res = await prisma.vortex_Community.findMany();
   return (
     <Frame>
       {res.map((el) => (

@@ -9,7 +9,7 @@ export async function GET() {
     if (!cookie || !cookie.value)
       throw { status: 401, message: "Unauthorized" };
     const refreshToken = cookie.value as string;
-    const userRefreshToken = await prisma.refreshToken.findUnique({
+    const userRefreshToken = await prisma.vortex_RefreshToken.findUnique({
       where: {
         token: refreshToken,
       },

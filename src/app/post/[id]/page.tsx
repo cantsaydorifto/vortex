@@ -21,7 +21,7 @@ async function getCommunityAndPosts(postId: number) {
   try {
     await wait(1000);
     const [postRes, commentRes] = await prisma.$transaction([
-      prisma.post.findUnique({
+      prisma.vortex_Post.findUnique({
         where: { id: postId },
         include: {
           author: {
@@ -40,7 +40,7 @@ async function getCommunityAndPosts(postId: number) {
           DisLikes: { select: { userId: true } },
         },
       }),
-      prisma.comment.findMany({
+      prisma.vortex_Comment.findMany({
         where: {
           postId,
         },

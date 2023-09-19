@@ -7,137 +7,137 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                 Int                  @id @default(autoincrement())
-  username           String               @unique
+model vortex_User {
+  id                 Int                         @id @default(autoincrement())
+  username           String                      @unique
   password           String
   firstName          String?
   lastName           String?
-  email              String               @unique
-  createdAt          DateTime             @default(now())
+  email              String                      @unique
+  createdAt          DateTime                    @default(now())
   updatedAt          DateTime?
-  Post               Post[]
-  Community          Community[]
-  Moderator          Moderator[]
-  RefreshToken       RefreshToken[]
-  Likes              Likes[]
-  DisLikes           DisLikes[]
-  FollowingCommunity FollowingCommunity[]
-  Comment            Comment[]
-  CommentLike        CommentLike[]
-  CommentDisLike     CommentDisLike[]
-  Follower           Follow[]             @relation("UserFollowers")
-  Following          Follow[]             @relation("UserFollowing")
+  Post               vortex_Post[]
+  Community          vortex_Community[]
+  Moderator          vortex_Moderator[]
+  RefreshToken       vortex_RefreshToken[]
+  Likes              vortex_Likes[]
+  DisLikes           vortex_DisLikes[]
+  FollowingCommunity vortex_FollowingCommunity[]
+  Comment            vortex_Comment[]
+  CommentLike        vortex_CommentLike[]
+  CommentDisLike     vortex_CommentDisLike[]
+  Follower           vortex_Follow[]             @relation("UserFollowers")
+  Following          vortex_Follow[]             @relation("UserFollowing")
 }
 
-model Follow {
+model vortex_Follow {
   followerId  Int
   followingId Int
-  Follower    User @relation("UserFollowers", fields: [followerId], references: [id])
-  Following   User @relation("UserFollowing", fields: [followingId], references: [id])
+  Follower    vortex_User @relation("UserFollowers", fields: [followerId], references: [id])
+  Following   vortex_User @relation("UserFollowing", fields: [followingId], references: [id])
 
   @@id([followerId, followingId])
 }
 
-model FollowingCommunity {
-  User        User      @relation(fields: [userId], references: [id])
+model vortex_FollowingCommunity {
+  User        vortex_User      @relation(fields: [userId], references: [id])
   userId      Int
-  Community   Community @relation(fields: [communityId], references: [id])
+  Community   vortex_Community @relation(fields: [communityId], references: [id])
   communityId Int
 
   @@id([userId, communityId])
 }
 
-model Likes {
-  User   User @relation(fields: [userId], references: [id])
+model vortex_Likes {
+  User   vortex_User @relation(fields: [userId], references: [id])
   userId Int
-  Post   Post @relation(fields: [postId], references: [id])
+  Post   vortex_Post @relation(fields: [postId], references: [id])
   postId Int
 
   @@id([userId, postId])
 }
 
-model DisLikes {
-  User   User @relation(fields: [userId], references: [id])
+model vortex_DisLikes {
+  User   vortex_User @relation(fields: [userId], references: [id])
   userId Int
-  Post   Post @relation(fields: [postId], references: [id])
+  Post   vortex_Post @relation(fields: [postId], references: [id])
   postId Int
 
   @@id([userId, postId])
 }
 
-model RefreshToken {
-  id     Int    @id @default(autoincrement())
+model vortex_RefreshToken {
+  id     Int         @id @default(autoincrement())
   userId Int
-  token  String @unique
-  User   User   @relation(fields: [userId], references: [id])
+  token  String      @unique
+  User   vortex_User @relation(fields: [userId], references: [id])
 }
 
-model Moderator {
+model vortex_Moderator {
   userId      Int
-  user        User      @relation(fields: [userId], references: [id])
-  community   Community @relation(fields: [communityId], references: [id])
+  user        vortex_User      @relation(fields: [userId], references: [id])
+  community   vortex_Community @relation(fields: [communityId], references: [id])
   communityId Int
 
   @@id([communityId, userId])
 }
 
-model Community {
-  id                 Int                  @id @default(autoincrement())
-  name               String               @unique
-  description        String               @default("no description") @db.VarChar(240)
-  createdAt          DateTime             @default(now())
+model vortex_Community {
+  id                 Int                         @id @default(autoincrement())
+  name               String                      @unique
+  description        String                      @default("no description") @db.VarChar(240)
+  createdAt          DateTime                    @default(now())
   updatedAt          DateTime?
-  Post               Post[]
+  Post               vortex_Post[]
   creatorId          Int
   img                String
   icon               String
-  user               User                 @relation(fields: [creatorId], references: [id])
-  Moderator          Moderator[]
-  FollowingCommunity FollowingCommunity[]
+  user               vortex_User                 @relation(fields: [creatorId], references: [id])
+  Moderator          vortex_Moderator[]
+  FollowingCommunity vortex_FollowingCommunity[]
 }
 
-model Post {
-  id          Int        @id @default(autoincrement())
+model vortex_Post {
+  id          Int               @id @default(autoincrement())
   title       String
-  content     String     @db.Text
-  createdAt   DateTime   @default(now())
+  content     String            @db.Text
+  createdAt   DateTime          @default(now())
   updatedAt   DateTime?
   authorId    Int
-  author      User       @relation(fields: [authorId], references: [id])
-  Community   Community  @relation(fields: [communityId], references: [id])
+  author      vortex_User       @relation(fields: [authorId], references: [id])
+  Community   vortex_Community  @relation(fields: [communityId], references: [id])
   communityId Int
-  Likes       Likes[]
-  DisLikes    DisLikes[]
-  Comment     Comment[]
+  Likes       vortex_Likes[]
+  DisLikes    vortex_DisLikes[]
+  Comment     vortex_Comment[]
 }
 
-model Comment {
-  id             Int              @id @default(autoincrement())
+model vortex_Comment {
+  id             Int                     @id @default(autoincrement())
   content        String
-  createdAt      DateTime         @default(now())
+  createdAt      DateTime                @default(now())
   updatedAt      DateTime?
   authorId       Int
-  author         User             @relation(fields: [authorId], references: [id])
+  author         vortex_User             @relation(fields: [authorId], references: [id])
   postId         Int
-  post           Post             @relation(fields: [postId], references: [id])
-  CommentLike    CommentLike[]
-  CommentDisLike CommentDisLike[]
+  post           vortex_Post             @relation(fields: [postId], references: [id])
+  CommentLike    vortex_CommentLike[]
+  CommentDisLike vortex_CommentDisLike[]
 }
 
-model CommentLike {
-  User      User    @relation(fields: [userId], references: [id])
+model vortex_CommentLike {
+  User      vortex_User    @relation(fields: [userId], references: [id])
   userId    Int
-  Comment   Comment @relation(fields: [commentId], references: [id])
+  Comment   vortex_Comment @relation(fields: [commentId], references: [id])
   commentId Int
 
   @@id([userId, commentId])
 }
 
-model CommentDisLike {
-  User      User    @relation(fields: [userId], references: [id])
+model vortex_CommentDisLike {
+  User      vortex_User    @relation(fields: [userId], references: [id])
   userId    Int
-  Comment   Comment @relation(fields: [commentId], references: [id])
+  Comment   vortex_Comment @relation(fields: [commentId], references: [id])
   commentId Int
 
   @@id([userId, commentId])

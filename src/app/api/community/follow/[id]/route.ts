@@ -12,7 +12,7 @@ export async function PUT(
     }
     const user = await authVerify();
 
-    const existingFollow = await prisma.followingCommunity.findUnique({
+    const existingFollow = await prisma.vortex_FollowingCommunity.findUnique({
       where: {
         userId_communityId: {
           communityId: Number(params.id),
@@ -22,7 +22,7 @@ export async function PUT(
     });
 
     if (existingFollow) {
-      await prisma.followingCommunity.delete({
+      await prisma.vortex_FollowingCommunity.delete({
         where: {
           userId_communityId: {
             communityId: Number(params.id),
@@ -33,7 +33,7 @@ export async function PUT(
       return NextResponse.json({ message: "Left Community" }, { status: 200 });
     }
 
-    await prisma.followingCommunity.create({
+    await prisma.vortex_FollowingCommunity.create({
       data: {
         communityId: Number(params.id),
         userId: user.id,

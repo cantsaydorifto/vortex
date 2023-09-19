@@ -1,6 +1,6 @@
 "use client";
 
-import type { Post } from "@prisma/client";
+import type { vortex_Post as Post } from "@prisma/client";
 import styles from "./post.module.css";
 import Like from "./like-buttons";
 import { useEffect, useState } from "react";

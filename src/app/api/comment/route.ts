@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     if (!commentInfo.success)
       throw { status: 400, message: commentInfo.error.issues[0].message };
 
-    const comment = await prisma.comment.create({
+    const comment = await prisma.vortex_Comment.create({
       data: {
         content: commentInfo.data.content,
         postId: commentInfo.data.postId,

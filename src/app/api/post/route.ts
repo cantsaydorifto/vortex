@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     if (!postInfo.success)
       throw { status: 400, message: postInfo.error.issues[0].message };
 
-    const post = await prisma.post.create({
+    const post = await prisma.vortex_Post.create({
       data: {
         content: postInfo.data.content,
         title: postInfo.data.title,

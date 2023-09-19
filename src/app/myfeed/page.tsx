@@ -3,7 +3,7 @@ import styles from "./myfeed.module.css";
 import prisma from "@/util/prisma";
 import { authRefreshVerify } from "@/util/authRefreshVerify";
 import PostCard from "@/components/PostCard/PostCard";
-import type { Post } from "@prisma/client";
+import type { vortex_Post as Post } from "@prisma/client";
 
 async function getUserPageInfo() {
   let userId: number | null = null;
@@ -23,7 +23,7 @@ async function getUserPageInfo() {
     const posts = await getPostsForFeed(userId);
 
     const [userLikes, userDislikes] = await prisma.$transaction([
-      prisma.likes.findMany({
+      prisma.vortex_Likes.findMany({
         where: {
           userId,
         },
@@ -31,7 +31,7 @@ async function getUserPageInfo() {
           postId: true,
         },
       }),
-      prisma.disLikes.findMany({
+      prisma.vortex_DisLikes.findMany({
         where: {
           userId,
         },
@@ -50,11 +50,7 @@ async function getUserPageInfo() {
   }
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { username: string };
-}) {
+export default async function Page() {
   const res = await getUserPageInfo();
   if (!res || !res.posts)
     return (
@@ -89,7 +85,7 @@ export default async function Page({
 }
 
 async function getPostsForFeed(userId: number) {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.vortex_User.findUnique({
     where: {
       id: userId,
     },

@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     await authVerify();
-    const res = await prisma.user.findMany({
+    const res = await prisma.vortex_User.findMany({
       select: {
         username: true,
       },

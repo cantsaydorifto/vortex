@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
       throw { message: "Query Error" };
     }
 
-    const res = await prisma.community.findMany({
+    const res = await prisma.vortex_Community.findMany({
       where: {
         name: {
           contains: query.toLowerCase().trim(),

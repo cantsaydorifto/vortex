@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       throw { status: 400, message: userInfo.error.issues[0].message };
     console.log(userInfo.data);
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.vortex_User.findUnique({
       where: {
         username: userInfo.data.username,
       },
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       { expiresIn: "4d" }
     );
 
-    await prisma.refreshToken.create({
+    await prisma.vortex_RefreshToken.create({
       data: {
         token: refreshToken,
         userId: user.id,

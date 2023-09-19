@@ -24,12 +24,12 @@ async function getCommunityAndPosts(communityName: string) {
   try {
     // await wait(10000);
     // console.log("done");
-    const community = await prisma.community.findUnique({
+    const community = await prisma.vortex_Community.findUnique({
       where: {
         name: communityName,
       },
     });
-    const postRes = await prisma.post.findMany({
+    const postRes = await prisma.vortex_Post.findMany({
       where: {
         communityId: community?.id,
       },
@@ -63,7 +63,7 @@ async function getCommunityAndPosts(communityName: string) {
       return { community, posts, userInfo: null, following };
     }
     const [userLikes, userDislikes] = await prisma.$transaction([
-      prisma.likes.findMany({
+      prisma.vortex_Likes.findMany({
         where: {
           userId,
           Post: {
@@ -74,7 +74,7 @@ async function getCommunityAndPosts(communityName: string) {
           postId: true,
         },
       }),
-      prisma.disLikes.findMany({
+      prisma.vortex_DisLikes.findMany({
         where: {
           userId,
           Post: {

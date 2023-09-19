@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import Link from "next/link";
 
 export default async function PopularCommunites() {
-  const res = await prisma.community.findMany({ take: 5 });
+  const res = await prisma.vortex_Community.findMany({ take: 5 });
   return (
     <div className={styles.popularCommunites}>
       <h3>POPULAR COMMUNITIES</h3>

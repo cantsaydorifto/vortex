@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         message: "spaces are not allowed for community names",
       };
 
-    const res = await prisma.community.create({
+    const res = await prisma.vortex_Community.create({
       data: {
         icon: communityInfo.data.icon,
         img: communityInfo.data.image,

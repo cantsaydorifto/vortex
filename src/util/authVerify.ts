@@ -12,7 +12,7 @@ export default async function authVerify() {
 
   const refreshToken = cookie.value;
 
-  const userRefreshToken = await prisma.refreshToken.findUnique({
+  const userRefreshToken = await prisma.vortex_RefreshToken.findUnique({
     where: {
       token: refreshToken,
     },

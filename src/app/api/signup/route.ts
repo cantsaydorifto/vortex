@@ -31,12 +31,12 @@ export async function POST(request: Request) {
     if (!userInfo.success)
       throw { status: 400, message: userInfo.error.issues[0].message };
 
-    const userUsername = await prisma.user.findUnique({
+    const userUsername = await prisma.vortex_User.findUnique({
       where: {
         username: userInfo.data.username,
       },
     });
-    const userEmail = await prisma.user.findUnique({
+    const userEmail = await prisma.vortex_User.findUnique({
       where: {
         email: userInfo.data.email,
       },
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       { expiresIn: "4d" }
     );
 
-    const user = await prisma.user.create({
+    const user = await prisma.vortex_User.create({
       data: {
         email: userInfo.data.email,
         password: hash,
