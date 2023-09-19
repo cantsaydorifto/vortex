@@ -66,6 +66,7 @@ async function getUserPageInfo(username: string) {
           },
           Likes: { select: { userId: true } },
           DisLikes: { select: { userId: true } },
+          Comment: { select: { postId: true } },
         },
         orderBy: {
           createdAt: "desc",
@@ -77,6 +78,7 @@ async function getUserPageInfo(username: string) {
       ...post,
       Likes: post.Likes.length,
       DisLikes: post.DisLikes.length,
+      Comment: post.Comment.length,
     }));
 
     if (!userId) {

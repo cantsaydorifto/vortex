@@ -110,6 +110,7 @@ async function getPostsForFeed(userId: number) {
                   },
                   Likes: { select: { userId: true } },
                   DisLikes: { select: { userId: true } },
+                  Comment: { select: { postId: true } },
                 },
                 orderBy: {
                   createdAt: "desc",
@@ -139,6 +140,7 @@ async function getPostsForFeed(userId: number) {
                   },
                   Likes: { select: { userId: true } },
                   DisLikes: { select: { userId: true } },
+                  Comment: { select: { postId: true } },
                 },
                 orderBy: {
                   createdAt: "desc",
@@ -160,6 +162,7 @@ async function getPostsForFeed(userId: number) {
     el.Community.Post.forEach((post) => {
       postsFromFollowingCommunities.push({
         ...post,
+        Comment: post.Comment.length,
         Likes: post.Likes.length,
         DisLikes: post.DisLikes.length,
       });
@@ -170,6 +173,7 @@ async function getPostsForFeed(userId: number) {
     follower.Following.Post.forEach((post) => {
       postsFromFollowingUsers.push({
         ...post,
+        Comment: post.Comment.length,
         Likes: post.Likes.length,
         DisLikes: post.DisLikes.length,
       });
@@ -195,6 +199,7 @@ async function getPostsForFeed(userId: number) {
 type ActualPost = Post & {
   Likes: number;
   DisLikes: number;
+  Comment: number;
   Community: {
     id: number;
     name: string;

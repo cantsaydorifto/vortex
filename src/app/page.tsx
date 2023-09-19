@@ -42,6 +42,7 @@ async function getNewestPosts() {
         },
         Likes: { select: { userId: true } },
         DisLikes: { select: { userId: true } },
+        Comment: { select: { postId: true } },
       },
     });
 
@@ -49,6 +50,7 @@ async function getNewestPosts() {
       ...post,
       Likes: post.Likes.length,
       DisLikes: post.DisLikes.length,
+      Comment: post.Comment.length,
     }));
 
     if (!userId) {

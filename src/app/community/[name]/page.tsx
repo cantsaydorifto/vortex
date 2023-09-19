@@ -48,6 +48,7 @@ async function getCommunityAndPosts(communityName: string) {
         },
         Likes: { select: { userId: true } },
         DisLikes: { select: { userId: true } },
+        Comment: { select: { postId: true } },
       },
       orderBy: {
         createdAt: "desc",
@@ -57,6 +58,7 @@ async function getCommunityAndPosts(communityName: string) {
       ...post,
       Likes: post.Likes.length,
       DisLikes: post.DisLikes.length,
+      Comment: post.Comment.length,
     }));
 
     if (!userId) {

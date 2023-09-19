@@ -38,6 +38,7 @@ async function getCommunityAndPosts(postId: number) {
           },
           Likes: { select: { userId: true } },
           DisLikes: { select: { userId: true } },
+          Comment: { select: { postId: true } },
         },
       }),
       prisma.vortex_Comment.findMany({
@@ -65,6 +66,7 @@ async function getCommunityAndPosts(postId: number) {
             ...postRes,
             Likes: postRes.Likes.length,
             DisLikes: postRes.DisLikes.length,
+            Comment: postRes.Comment.length,
             hasUserLiked: postRes.Likes.includes({ userId: userId! }),
             hasUserDisLiked: postRes.DisLikes.includes({ userId: userId! }),
           }
