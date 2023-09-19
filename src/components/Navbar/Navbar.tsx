@@ -39,9 +39,11 @@ export default function Navbar() {
         </Link>
         <Bar />
         <div>
-          {/* <span>Logged in as {!!user ? user.username : "none"}</span> */}
           {user ? (
-            <img src="/assets/user.png" alt={user.username} />
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/848/848006.png"
+              alt={user.username}
+            />
           ) : (
             <button onClick={() => toggleModal()}>Login</button>
           )}
