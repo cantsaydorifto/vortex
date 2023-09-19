@@ -9,8 +9,6 @@ export default function Frame({ children }: { children: ReactNode }) {
   const rRef = useRef<HTMLButtonElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
 
-  console.log("apples");
-
   const handleFirstClick = (function () {
     let moved = 0;
     return function (right: boolean) {
@@ -18,7 +16,6 @@ export default function Frame({ children }: { children: ReactNode }) {
       if (!frameRef.current || !frameContainerRef.current) return;
       const width = frameRef.current.clientWidth;
       const FRAME_WIDTH = frameContainerRef.current.clientWidth;
-      console.log("FRAME_WIDTH: ", FRAME_WIDTH);
       const availableL = moved;
       const availableR = width - FRAME_WIDTH - moved;
       const toMove = FRAME_WIDTH > 600 ? 400 : 200;

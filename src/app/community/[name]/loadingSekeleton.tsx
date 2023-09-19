@@ -3,7 +3,7 @@ import styles from "./communityPage.module.css";
 import CommunityInfoLoading from "./CommunityInfoLoading";
 import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
 
-export default function Loading() {
+export default function LoadingSkeleton() {
   return (
     <main className={styles.container}>
       <Sidebar />

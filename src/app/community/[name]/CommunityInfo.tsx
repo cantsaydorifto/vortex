@@ -28,7 +28,9 @@ export default function CommunityInfo({
         </div>
         <div>
           <span>
-            {res.createdAt.getDate() + " " + month(res.createdAt.getMonth())}
+            {new Date(res.createdAt).getDate() +
+              " " +
+              month(new Date(res.createdAt).getMonth())}
           </span>
           <span>Created At</span>
         </div>

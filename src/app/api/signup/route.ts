@@ -83,7 +83,18 @@ export async function POST(request: Request) {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return NextResponse.json({ token: accessToken }, { status: 200 });
+    return NextResponse.json(
+      {
+        username: user.username,
+        email: user.email,
+        token: accessToken,
+        userPostLikes: [],
+        userPostDislikes: [],
+        userCommentLikes: [],
+        userCommentDislikes: [],
+      },
+      { status: 200 }
+    );
   } catch (err: any) {
     return NextResponse.json(
       { message: err.message || err || "ERROR" },

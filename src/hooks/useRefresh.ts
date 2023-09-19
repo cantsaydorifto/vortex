@@ -13,6 +13,18 @@ export default function useRefresh() {
         username: string;
         email: string;
         token: string;
+        userPostLikes: {
+          postId: number;
+        }[];
+        userPostDislikes: {
+          postId: number;
+        }[];
+        userCommentLikes: {
+          commentId: number;
+        }[];
+        userCommentDislikes: {
+          commentId: number;
+        }[];
       }>("/api/refresh", { withCredentials: true });
 
       setAuth({ isAuthenticated: true, user: res.data });

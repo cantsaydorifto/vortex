@@ -1,13 +1,20 @@
-import prisma from "@/util/prisma";
+"use client";
 import Frame from "./Frame";
 import Link from "next/link";
 import styles from "./community.module.css";
 
-export default async function Community() {
-  const res = await prisma.vortex_Community.findMany();
+export default function Community({
+  communities,
+}: {
+  communities: {
+    id: number;
+    name: string;
+    icon: string;
+  }[];
+}) {
   return (
     <Frame>
-      {res.map((el) => (
+      {communities.map((el) => (
         <Link
           className={styles.frameElement}
           href={`/community/${el.name}`}

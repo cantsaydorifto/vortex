@@ -57,7 +57,7 @@ export default function Comment({ comment }: { comment: Comment }) {
               className={styles.likeButton}
               onClick={async () => {
                 const prevState = { ...likeDislikes };
-                if (likeDislikes.dislike)
+                if (likeDislikes.dislike) {
                   setLikeDislike((prev) => {
                     return {
                       ...prev,
@@ -65,6 +65,7 @@ export default function Comment({ comment }: { comment: Comment }) {
                       count: prev.count + 1,
                     };
                   });
+                }
                 setLikeDislike((prev) => {
                   return {
                     ...prev,

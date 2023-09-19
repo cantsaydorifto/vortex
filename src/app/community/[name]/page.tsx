@@ -1,111 +1,56 @@
+"use client";
+
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./communityPage.module.css";
 import CommunityInfo from "./CommunityInfo";
-import prisma from "@/util/prisma";
 import PostCard from "@/components/PostCard/PostCard";
-import { authRefreshVerify } from "@/util/authRefreshVerify";
 import CommunityDescription from "./CommunityDescription";
 import CreatePost from "@/components/CreateButton/CreatePost";
+import { useEffect, useState } from "react";
+import LoadingSkeleton from "./loadingSekeleton";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+export default function Page({ params }: { params: { name: string } }) {
+  const [loading, setLoading] = useState(true);
+  const [pageError, setPageError] = useState(false);
+  const [pageData, setPageData] = useState<ResponseData | null>(null);
+  const axiosPrivate = useAxiosPrivate();
 
-async function getCommunityAndPosts(communityName: string) {
-  let userId: number | null = null;
-  const following: number[] = [];
-  try {
-    const user = await authRefreshVerify();
-    userId = user.id;
-    following.push(...user.following);
-  } catch (err) {
-    console.log(err);
-  }
-  try {
-    // await wait(10000);
-    // console.log("done");
-    const community = await prisma.vortex_Community.findUnique({
-      where: {
-        name: communityName,
-      },
-    });
-    const postRes = await prisma.vortex_Post.findMany({
-      where: {
-        communityId: community?.id,
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-          },
-        },
-        Community: {
-          select: {
-            id: true,
-            icon: true,
-            name: true,
-          },
-        },
-        Likes: { select: { userId: true } },
-        DisLikes: { select: { userId: true } },
-        Comment: { select: { postId: true } },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-    const posts = postRes.map((post) => ({
-      ...post,
-      Likes: post.Likes.length,
-      DisLikes: post.DisLikes.length,
-      Comment: post.Comment.length,
-    }));
-
-    if (!userId) {
-      return { community, posts, userInfo: null, following };
+  useEffect(() => {
+    async function getCommunityAndPosts(communityName: string) {
+      try {
+        const res = await axiosPrivate.get<ResponseData>(
+          "/api/post/community/" + communityName
+        );
+        setLoading(false);
+        setPageData({
+          posts: res.data.posts,
+          community: res.data.community,
+          following: res.data.following,
+        });
+      } catch (err) {
+        setLoading(false);
+        setPageError(true);
+      }
     }
-    const [userLikes, userDislikes] = await prisma.$transaction([
-      prisma.vortex_Likes.findMany({
-        where: {
-          userId,
-          Post: {
-            communityId: community?.id,
-          },
-        },
-        select: {
-          postId: true,
-        },
-      }),
-      prisma.vortex_DisLikes.findMany({
-        where: {
-          userId,
-          Post: {
-            communityId: community?.id,
-          },
-        },
-        select: {
-          postId: true,
-        },
-      }),
-    ]);
-    console.log(userLikes);
-    return {
-      community,
-      posts,
-      userInfo: {
-        userLikes: userLikes.map((el) => el.postId),
-        userDislikes: userDislikes.map((el) => el.postId),
-      },
-      following,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-}
+    getCommunityAndPosts(params.name);
+  }, []);
 
-export default async function Page({ params }: { params: { name: string } }) {
-  const res = await getCommunityAndPosts(params.name);
-  if (!res || !res.community || !res.posts) return; //RETURN SOME ERROR
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (pageError || !pageData || !pageData.community)
+    return (
+      <main className={styles.container}>
+        <Sidebar />
+        <div className={styles.comInfoContainer}>
+          <div className={styles.postContainer}>
+            <h1>Something Went Wrong</h1>
+          </div>
+        </div>
+      </main>
+    );
   return (
     <main className={styles.container}>
       <Sidebar />
@@ -113,38 +58,59 @@ export default async function Page({ params }: { params: { name: string } }) {
         <div className={styles.postContainer}>
           <div>
             <CommunityDescription
-              community={res.community}
-              following={res.following}
+              community={pageData.community}
+              following={pageData.following}
             />
             <CreatePost />
           </div>
-          {res.posts.map((post) =>
-            !res.userInfo ? (
-              <PostCard
-                postPage={false}
-                like={false}
-                showPost={false}
-                dislike={false}
-                key={post.id}
-                post={post}
-              />
-            ) : (
-              <PostCard
-                postPage={false}
-                showPost={false}
-                like={res.userInfo.userLikes.includes(post.id)}
-                dislike={res.userInfo.userDislikes.includes(post.id)}
-                key={post.id}
-                post={post}
-              />
-            )
-          )}
+          {pageData.posts.map((post) => (
+            <PostCard
+              postPage={false}
+              showPost={false}
+              key={post.id}
+              post={post}
+            />
+          ))}
         </div>
         <CommunityInfo
-          following={res.following.includes(res.community.id)}
-          res={res.community}
+          following={pageData.following.includes(pageData.community.id)}
+          res={pageData.community}
         />
       </div>
     </main>
   );
 }
+
+type ResponseData = {
+  community: {
+    id: number;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    creatorId: number;
+    img: string;
+    icon: string;
+  } | null;
+  posts: {
+    Likes: number;
+    DisLikes: number;
+    Comment: number;
+    Community: {
+      id: number;
+      name: string;
+      icon: string;
+    };
+    author: {
+      username: string;
+    };
+    id: number;
+    title: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    authorId: number;
+    communityId: number;
+  }[];
+  following: number[];
+};

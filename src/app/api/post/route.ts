@@ -47,3 +47,51 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const communities = await prisma.vortex_Community.findMany({
+      take: 20,
+    });
+    const postRes = await prisma.vortex_Post.findMany({
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+        Community: {
+          select: {
+            id: true,
+            icon: true,
+            name: true,
+          },
+        },
+        Likes: { select: { userId: true } },
+        DisLikes: { select: { userId: true } },
+        Comment: { select: { postId: true } },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    const posts = postRes.map((post) => ({
+      ...post,
+      Likes: post.Likes.length,
+      DisLikes: post.DisLikes.length,
+      Comment: post.Comment.length,
+    }));
+    return NextResponse.json(
+      {
+        communities,
+        posts,
+      },
+      { status: 200 }
+    );
+  } catch (err: any) {
+    return NextResponse.json(
+      { message: err.message || err || "ERROR" },
+      { status: err.status || 400 }
+    );
+  }
+}

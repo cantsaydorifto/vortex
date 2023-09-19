@@ -36,6 +36,32 @@ export async function POST(request: Request) {
       where: {
         username: userInfo.data.username,
       },
+      select: {
+        username: true,
+        email: true,
+        password: true,
+        id: true,
+        Likes: {
+          select: {
+            postId: true,
+          },
+        },
+        DisLikes: {
+          select: {
+            postId: true,
+          },
+        },
+        CommentLike: {
+          select: {
+            commentId: true,
+          },
+        },
+        CommentDisLike: {
+          select: {
+            commentId: true,
+          },
+        },
+      },
     });
     if (!user) throw { status: 401, message: "User Does Not Exist" };
 
@@ -69,7 +95,15 @@ export async function POST(request: Request) {
       maxAge: 24 * 60 * 60 * 1000,
     });
     return NextResponse.json(
-      { username: user.username, email: user.email, token: accessToken },
+      {
+        username: user.username,
+        email: user.email,
+        token: accessToken,
+        userPostLikes: user.Likes.map((el) => el.postId),
+        userPostDislikes: user.DisLikes.map((el) => el.postId),
+        userCommentLikes: user.CommentLike.map((el) => el.commentId),
+        userCommentDislikes: user.CommentDisLike.map((el) => el.commentId),
+      },
       { status: 200 }
     );
   } catch (err: any) {

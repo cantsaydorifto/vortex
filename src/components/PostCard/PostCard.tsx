@@ -7,11 +7,10 @@ import { useEffect, useState } from "react";
 import DisLike from "./dislike";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
 
 export default function PostCard({
   post,
-  like,
-  dislike,
   postPage,
   showPost,
 }: {
@@ -28,20 +27,18 @@ export default function PostCard({
         author: { username: string };
       })
     | null;
-  like?: boolean;
-  dislike?: boolean;
   showPost: boolean;
   postPage: boolean;
 }) {
   useEffect(() => {
     setDate(true);
   }, []);
-  const [likeDislikes, setLikeDislike] = useState({
-    like,
-    dislike,
-    count: post ? post.Likes - post.DisLikes : 0,
-  });
+  const {
+    auth: { user },
+    setAuth,
+  } = useAuth();
   const [date, setDate] = useState(false);
+  const [count, setCount] = useState(post ? post.Likes - post.DisLikes : 0);
   const axiosPrivate = useAxiosPrivate();
   if (!post) {
     return (
@@ -60,10 +57,10 @@ export default function PostCard({
         <p>{"content"}</p>
         <div className={styles.actionContainer}>
           <button className={styles.likeButton} onClick={() => null}>
-            <Like liked={!!likeDislikes.like} />
+            <Like liked={false} />
           </button>
           <button className={styles.likeButton} onClick={() => null}>
-            <DisLike disLiked={!!likeDislikes.dislike} />
+            <DisLike disLiked={false} />
           </button>
         </div>
       </div>
@@ -100,58 +97,134 @@ export default function PostCard({
             }}
             className={styles.actionContainer}
           >
-            <span>{likeDislikes.count}</span>
+            <span>{count}</span>
             <button
               className={styles.likeButton}
               onClick={async () => {
-                const prevState = { ...likeDislikes };
-                if (likeDislikes.dislike)
-                  setLikeDislike((prev) => {
+                if (!user) return;
+                const prevState = {
+                  ...user,
+                  userPostLikes: [...user.userPostLikes],
+                  userPostDislikes: [...user.userPostDislikes],
+                  userCommentLikes: [...user.userCommentLikes],
+                  userCommentDislikes: [...user.userCommentDislikes],
+                };
+
+                if (user.userPostDislikes.includes(post.id)) {
+                  setCount((prev) => prev + 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
                     return {
                       ...prev,
-                      dislike: !prev.dislike,
-                      count: prev.count + 1,
+                      user: {
+                        ...prev.user,
+                        userPostDislikes: prev.user.userPostDislikes.filter(
+                          (el) => el !== post.id
+                        ),
+                      },
                     };
                   });
-                setLikeDislike((prev) => {
-                  return {
-                    ...prev,
-                    like: !prev.like,
-                    count: prev.count + (!prev.like ? +1 : -1),
-                  };
-                });
+                }
+                if (user.userPostLikes.includes(post.id)) {
+                  setCount((prev) => prev - 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
+                    return {
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        userPostLikes: prev.user.userPostLikes.filter(
+                          (el) => el !== post.id
+                        ),
+                      },
+                    };
+                  });
+                } else {
+                  setCount((prev) => prev + 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
+                    return {
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        userPostLikes: [...prev.user.userPostLikes, post.id],
+                      },
+                    };
+                  });
+                }
                 try {
                   await axiosPrivate.put("/api/like", { id: post.id });
                 } catch (err) {
-                  setLikeDislike(prevState);
+                  setAuth((prev) => ({ ...prev, user: prevState }));
                 }
               }}
             >
-              <Like liked={!!likeDislikes.like} />
+              <Like liked={!!user?.userPostLikes.includes(post.id)} />
             </button>
             <button
               className={styles.likeButton}
               onClick={async () => {
-                const prevState = { ...likeDislikes };
-                if (likeDislikes.like)
-                  setLikeDislike((prev) => {
-                    return { ...prev, like: !prev.like, count: prev.count - 1 };
+                if (!user) return;
+                const prevState = {
+                  ...user,
+                  userPostLikes: [...user.userPostLikes],
+                  userPostDislikes: [...user.userPostDislikes],
+                  userCommentLikes: [...user.userCommentLikes],
+                  userCommentDislikes: [...user.userCommentDislikes],
+                };
+                if (user.userPostLikes.includes(post.id)) {
+                  setCount((prev) => prev - 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
+                    return {
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        userPostLikes: prev.user.userPostLikes.filter(
+                          (el) => el !== post.id
+                        ),
+                      },
+                    };
                   });
-                setLikeDislike((prev) => {
-                  return {
-                    ...prev,
-                    dislike: !prev.dislike,
-                    count: prev.count + (!prev.dislike ? -1 : +1),
-                  };
-                });
+                }
+                if (user.userPostDislikes.includes(post.id)) {
+                  setCount((prev) => prev + 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
+                    return {
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        userPostDislikes: prev.user.userPostDislikes.filter(
+                          (el) => el !== post.id
+                        ),
+                      },
+                    };
+                  });
+                } else {
+                  setCount((prev) => prev - 1);
+                  setAuth((prev) => {
+                    if (!prev.user) return prev;
+                    return {
+                      ...prev,
+                      user: {
+                        ...prev.user,
+                        userPostDislikes: [
+                          ...prev.user.userPostDislikes,
+                          post.id,
+                        ],
+                      },
+                    };
+                  });
+                }
                 try {
                   await axiosPrivate.put("/api/dislike", { id: post.id });
                 } catch (err) {
-                  setLikeDislike(prevState);
+                  setAuth((prev) => ({ ...prev, user: prevState }));
                 }
               }}
             >
-              <DisLike disLiked={!!likeDislikes.dislike} />
+              <DisLike disLiked={!!user?.userPostDislikes.includes(post.id)} />
             </button>
           </div>
           <Link

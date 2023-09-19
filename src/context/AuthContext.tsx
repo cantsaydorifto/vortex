@@ -3,7 +3,15 @@ import { createContext, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 type AuthState = {
-  user: { username: string; email: string; token: string } | null;
+  user: {
+    username: string;
+    email: string;
+    token: string;
+    userPostLikes: number[];
+    userPostDislikes: number[];
+    userCommentLikes: number[];
+    userCommentDislikes: number[];
+  } | null;
   isAuthenticated: boolean;
 };
 

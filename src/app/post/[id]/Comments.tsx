@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 type Comment = {
   CommentLike: number;
   CommentDisLike: number;
-  hasUserLilked: boolean;
-  hasUserDisliked: boolean;
   author: {
     username: string;
   };
@@ -72,7 +70,14 @@ export default function Comments({
         </button>
       )}
       {comments.map((el) => (
-        <Comment key={el.id} comment={el} />
+        <Comment
+          key={el.id}
+          comment={{
+            ...el,
+            hasUserDisliked: !!user?.userCommentDislikes.includes(el.id),
+            hasUserLilked: !!user?.userCommentLikes.includes(el.id),
+          }}
+        />
       ))}
     </>
   );

@@ -38,6 +38,10 @@ export default function LoginForm({
         username: string;
         email: string;
         token: string;
+        userPostLikes: number[];
+        userPostDislikes: number[];
+        userCommentLikes: number[];
+        userCommentDislikes: number[];
       }>("/api/login", {
         username: userInfo.username,
         password: userInfo.password,

@@ -1,9 +1,10 @@
+"use client";
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./postPage.module.css";
 import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
 import React from "react";
 
-export default function Loading() {
+export default function LoadingSkeleton() {
   return (
     <main className={styles.container}>
       <Sidebar />

@@ -4,7 +4,7 @@ import LoadingCommunity from "@/components/home-community/LoadingCommunity";
 import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
 import LoadingPopularCommunites from "@/components/popularCommunites/LoadingPopularCommunities";
 
-export default function LoadingPage() {
+export default function LoadingSkeleton() {
   return (
     <main className={styles.main}>
       <Sidebar />

@@ -19,6 +19,26 @@ export async function GET() {
             username: true,
             email: true,
             id: true,
+            Likes: {
+              select: {
+                postId: true,
+              },
+            },
+            DisLikes: {
+              select: {
+                postId: true,
+              },
+            },
+            CommentLike: {
+              select: {
+                commentId: true,
+              },
+            },
+            CommentDisLike: {
+              select: {
+                commentId: true,
+              },
+            },
           },
         },
       },
@@ -43,6 +63,14 @@ export async function GET() {
         username: userRefreshToken.User.username,
         email: userRefreshToken.User.email,
         token: accessToken,
+        userPostLikes: userRefreshToken.User.Likes.map((el) => el.postId),
+        userPostDislikes: userRefreshToken.User.DisLikes.map((el) => el.postId),
+        userCommentLikes: userRefreshToken.User.CommentLike.map(
+          (el) => el.commentId
+        ),
+        userCommentDislikes: userRefreshToken.User.CommentDisLike.map(
+          (el) => el.commentId
+        ),
       },
       { status: 200 }
     );

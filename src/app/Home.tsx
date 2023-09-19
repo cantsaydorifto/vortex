@@ -1,18 +1,52 @@
-import { authRefreshVerify } from "@/util/authRefreshVerify";
+"use client";
+
 import styles from "./page.module.css";
 import Community from "@/components/home-community/Community";
 import Link from "next/link";
 import PostCard from "@/components/PostCard/PostCard";
 import CreateCommunity from "@/components/CreateButton/CreateCommunity";
 import PopularCommunites from "@/components/popularCommunites/PopularCommunites";
-import prisma from "@/util/prisma";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import LoadingSkeleton from "./loadingSkeleton";
 
-export default async function Home() {
-  const res = await getNewestPosts();
-  if (!res) return <h1>ERROR !!!!</h1>;
+export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [pageError, setPageError] = useState(false);
+  const [pageData, setPageData] = useState<ResponseData | null>(null);
+  const axiosPrivate = useAxiosPrivate();
+
+  useEffect(() => {
+    async function getCommunityAndPosts() {
+      try {
+        const res = await axiosPrivate.get<ResponseData>("/api/post");
+        setLoading(false);
+        setPageData({
+          posts: res.data.posts,
+          communities: res.data.communities,
+        });
+      } catch (err) {
+        setLoading(false);
+        setPageError(true);
+      }
+    }
+    getCommunityAndPosts();
+  }, []);
+
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (pageError || !pageData)
+    return (
+      <main className={styles.content}>
+        <h1>Something Went Wrong</h1>
+      </main>
+    );
+
   return (
     <div className={styles.content}>
-      <Community />
+      <Community communities={pageData.communities} />
       <div>
         <div>
           <div>
@@ -25,104 +59,50 @@ export default async function Home() {
             </Link>
             <CreateCommunity />
           </div>
-          {res.posts.map((el) =>
-            !res.userInfo ? (
-              <PostCard
-                postPage={false}
-                like={false}
-                showPost={false}
-                dislike={false}
-                key={el.id}
-                post={el}
-              />
-            ) : (
-              <PostCard
-                postPage={false}
-                showPost={false}
-                like={res.userInfo.userLikes.includes(el.id)}
-                dislike={res.userInfo.userDislikes.includes(el.id)}
-                key={el.id}
-                post={el}
-              />
-            )
-          )}
+          {pageData.posts.map((post) => (
+            <PostCard
+              postPage={false}
+              showPost={false}
+              key={post.id}
+              post={post}
+            />
+          ))}
         </div>
-        <PopularCommunites />
+        <PopularCommunites communities={pageData.communities} />
       </div>
     </div>
   );
 }
 
-async function getNewestPosts() {
-  let userId: number | null = null;
-  //   const following: number[] = [];
-  try {
-    const user = await authRefreshVerify();
-    userId = user.id;
-  } catch (err) {
-    console.log(err);
-  }
-  try {
-    const postRes = await prisma.vortex_Post.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-          },
-        },
-        Community: {
-          select: {
-            id: true,
-            icon: true,
-            name: true,
-          },
-        },
-        Likes: { select: { userId: true } },
-        DisLikes: { select: { userId: true } },
-        Comment: { select: { postId: true } },
-      },
-    });
-
-    const posts = postRes.map((post) => ({
-      ...post,
-      Likes: post.Likes.length,
-      DisLikes: post.DisLikes.length,
-      Comment: post.Comment.length,
-    }));
-
-    if (!userId) {
-      return { posts };
-    }
-
-    const [userLikes, userDislikes] = await prisma.$transaction([
-      prisma.vortex_Likes.findMany({
-        where: {
-          userId,
-        },
-        select: {
-          postId: true,
-        },
-      }),
-      prisma.vortex_DisLikes.findMany({
-        where: {
-          userId,
-        },
-        select: {
-          postId: true,
-        },
-      }),
-    ]);
-    return {
-      posts,
-      userInfo: {
-        userLikes: userLikes.map((el) => el.postId),
-        userDislikes: userDislikes.map((el) => el.postId),
-      },
+type ResponseData = {
+  communities: {
+    id: number;
+    name: string;
+    description: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    creatorId: number;
+    img: string;
+    icon: string;
+  }[];
+  posts: {
+    Likes: number;
+    DisLikes: number;
+    Comment: number;
+    Community: {
+      id: number;
+      name: string;
+      icon: string;
     };
-  } catch (err) {
-    console.log(err);
-  }
-}
+    author: {
+      username: string;
+    };
+    id: number;
+    title: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    authorId: number;
+    communityId: number;
+  }[];
+};
