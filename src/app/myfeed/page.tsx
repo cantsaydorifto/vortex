@@ -68,14 +68,12 @@ export default async function Page() {
         <h1 className={styles.h1}>Your Feed</h1>
         <p>Posts from users and communities you follow</p>
         <div className={styles.postContainer}>
-          {res.posts.map((el) => (
+          {res.posts.map((post) => (
             <PostCard
-              post={el}
+              post={post}
               postPage={false}
-              key={el.id}
+              key={post.id}
               showPost={true}
-              like={res.userLikes.includes(el.id)}
-              dislike={res.userDislikes.includes(el.id)}
             />
           ))}
         </div>
