@@ -175,14 +175,12 @@ export default async function Page({
           doesUserFollow={res.follow}
         />
         <div className={styles.postContainer}>
-          {res.posts.map((el) => (
+          {res.posts.map((post) => (
             <PostCard
-              post={el}
+              post={post}
               postPage={false}
-              key={el.id}
+              key={post.id}
               showPost={true}
-              like={res.userInfo.userLikes?.includes(el.id)}
-              dislike={res.userInfo.userDislikes?.includes(el.id)}
             />
           ))}
         </div>
