@@ -53,15 +53,10 @@ export default async function Home() {
   );
 }
 
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 async function getNewestPosts() {
   let userId: number | null = null;
   //   const following: number[] = [];
   try {
-    await wait(3000);
     const user = await authRefreshVerify();
     userId = user.id;
   } catch (err) {
