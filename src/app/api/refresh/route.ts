@@ -36,7 +36,7 @@ export async function GET() {
     const accessToken = jwt.sign(
       { ...userRefreshToken.User },
       process.env.JWT_SECRET,
-      { expiresIn: "5s" }
+      { expiresIn: "15min" }
     );
     return NextResponse.json(
       {

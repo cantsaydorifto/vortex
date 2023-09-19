@@ -1,42 +1,48 @@
+"use client";
+
 import { axiosPrivate } from "@/util/axiosPrivate";
 import useAuth from "./useAuth";
 import { useEffect } from "react";
 import useRefresh from "./useRefresh";
-
-type DecodedAccessToken = {
-  username: string;
-  email: string;
-  id: number;
-  exp: number;
-  iat: number;
-};
+import useLogout from "./useLogout";
 
 export default function useAxiosPrivate() {
-  const ctx = useAuth();
+  const { auth } = useAuth();
   const refresh = useRefresh();
+  const logout = useLogout();
   useEffect(() => {
     const reqInterceptor = axiosPrivate.interceptors.request.use(
-      async (config) => {
-        const token = ctx.auth.user?.token;
-        if (token) {
-          const decodedToken: DecodedAccessToken = JSON.parse(
-            Buffer.from(token.split(".")[1], "base64").toString()
-          );
-          if (Date.now() - decodedToken.exp * 1000 >= -3000) {
-            console.log(Date.now() - decodedToken.exp * 1000);
-            const newToken = await refresh();
-            console.log("newToken", newToken);
-            if (newToken) config.headers.Authorization = `Bearer: ${newToken}`;
-          }
+      (config) => {
+        if (!config.headers.Authorization) {
+          config.headers.Authorization = `Bearer: ${auth.user?.token}`;
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (err) => Promise.reject(err)
+    );
+
+    const resInterceptor = axiosPrivate.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const prevRequest = error?.config;
+        if (error?.response?.status === 403 && !prevRequest?.sent) {
+          prevRequest.sent = true;
+          const newAccessToken = await refresh();
+          prevRequest.headers.Authorization = `Bearer: ${newAccessToken}`;
+          console.log("Generated New Access Token");
+          return axiosPrivate(prevRequest);
+        }
+        if (error?.response?.status === 403 && prevRequest.sent) {
+          console.log("logout");
+          await logout();
+        }
+        return Promise.reject(error);
+      }
     );
     return () => {
       axiosPrivate.interceptors.request.eject(reqInterceptor);
+      axiosPrivate.interceptors.response.eject(resInterceptor);
     };
-  }, [ctx.auth.user]);
-
+  }, [auth, refresh, logout]);
   return axiosPrivate;
 }

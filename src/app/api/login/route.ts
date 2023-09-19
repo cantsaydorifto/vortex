@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const accessToken = jwt.sign(
       { id: user.id, username: user.username, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "5min" }
+      { expiresIn: "15min" }
     );
 
     const refreshToken = jwt.sign(
