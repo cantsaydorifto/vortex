@@ -9,6 +9,7 @@ export default function Community({
   communities: {
     id: number;
     name: string;
+    img: string;
     icon: string;
   }[];
 }) {

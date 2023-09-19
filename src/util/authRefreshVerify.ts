@@ -10,7 +10,7 @@ export const authRefreshVerify = async () => {
   if (!cookie || !cookie.value) throw { status: 401, message: "Unauthorized" };
   const refreshToken = cookie.value;
 
-  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err) => {
     if (err) throw { status: 403, message: "Invalid Token" };
   });
 

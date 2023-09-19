@@ -39,18 +39,10 @@ export default function SignupForm({
         username: string;
         email: string;
         token: string;
-        userPostLikes: {
-          postId: number;
-        }[];
-        userPostDislikes: {
-          postId: number;
-        }[];
-        userCommentLikes: {
-          commentId: number;
-        }[];
-        userCommentDislikes: {
-          commentId: number;
-        }[];
+        userPostLikes: number[];
+        userPostDislikes: number[];
+        userCommentLikes: number[];
+        userCommentDislikes: number[];
       }>("/api/signup", {
         username: userInfo.username,
         password: userInfo.password,
