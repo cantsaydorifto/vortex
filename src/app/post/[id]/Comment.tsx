@@ -36,18 +36,17 @@ export default function Comment({ comment }: { comment: Comment }) {
       <hr className={styles.hr} />
       <div className={styles.task} key={comment.id}>
         <div className={styles.postDetails}>
-          <span>
+          <Link href={`/user/${comment.author.username}`}>
             <img
               src="https://cdn-icons-png.flaticon.com/512/848/848006.png"
               alt={comment.author.username}
             />
             <span>{comment.author.username}</span>
-          </span>
+          </Link>
           <span className={styles.relativeTime}>
             {date ? getRelativeTime(new Date(comment.createdAt)) : ""}
           </span>
         </div>
-        <p>Comment</p>
         <p>{comment.content}</p>
         <div className={styles.postInfo}>
           <div className={styles.actionContainer}>
