@@ -11,7 +11,7 @@ function wait(ms: number) {
 
 async function getCommunityAndPosts(postId: number) {
   let userId: number | null = null;
-  console.log(postId);
+  // console.log(postId);
   try {
     const user = await authRefreshVerify();
     userId = user.id;
@@ -60,6 +60,16 @@ async function getCommunityAndPosts(postId: number) {
       }),
     ]);
 
+    if (!postRes) return null;
+
+    const postLikes = postRes.Likes.map((el) => el.userId);
+    const postDislikes = postRes.DisLikes.map((el) => el.userId);
+    const commentRes2 = commentRes.map((el) => ({
+      ...el,
+      CommentLike: el.CommentLike.map((el) => el.userId),
+      CommentDisLike: el.CommentDisLike.map((el) => el.userId),
+    }));
+
     const [post, comments] = [
       postRes
         ? {
@@ -67,16 +77,16 @@ async function getCommunityAndPosts(postId: number) {
             Likes: postRes.Likes.length,
             DisLikes: postRes.DisLikes.length,
             Comment: postRes.Comment.length,
-            hasUserLiked: postRes.Likes.includes({ userId: userId! }),
-            hasUserDisLiked: postRes.DisLikes.includes({ userId: userId! }),
+            hasUserLiked: postLikes.includes(userId!),
+            hasUserDisLiked: postDislikes.includes(userId!),
           }
         : null,
-      commentRes.map((el) => ({
+      commentRes2.map((el) => ({
         ...el,
         CommentLike: el.CommentLike.length,
         CommentDisLike: el.CommentDisLike.length,
-        hasUserLilked: el.CommentLike.includes({ userId: userId! }),
-        hasUserDisliked: el.CommentDisLike.includes({ userId: userId! }),
+        hasUserLilked: el.CommentLike.includes(userId!),
+        hasUserDisliked: el.CommentDisLike.includes(userId!),
       })),
     ];
     return {

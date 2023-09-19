@@ -77,8 +77,10 @@ async function getNewestPosts() {
     ]);
     return {
       posts,
-      userLikes: userLikes.map((el) => el.postId),
-      userDislikes: userDislikes.map((el) => el.postId),
+      userInfo: {
+        userLikes: userLikes.map((el) => el.postId),
+        userDislikes: userDislikes.map((el) => el.postId),
+      },
     };
   } catch (err) {
     console.log(err);
@@ -105,14 +107,27 @@ export default async function Home() {
               </Link>
               <CreateCommunity />
             </div>
-            {res.posts.map((el) => (
-              <PostCard
-                post={el}
-                key={el.id}
-                postPage={false}
-                showPost={true}
-              />
-            ))}
+            {res.posts.map((el) =>
+              !res.userInfo ? (
+                <PostCard
+                  postPage={false}
+                  like={false}
+                  showPost={false}
+                  dislike={false}
+                  key={el.id}
+                  post={el}
+                />
+              ) : (
+                <PostCard
+                  postPage={false}
+                  showPost={false}
+                  like={res.userInfo.userLikes.includes(el.id)}
+                  dislike={res.userInfo.userDislikes.includes(el.id)}
+                  key={el.id}
+                  post={el}
+                />
+              )
+            )}
           </div>
           <PopularCommunites />
         </div>

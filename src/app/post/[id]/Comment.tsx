@@ -4,6 +4,7 @@ import styles from "./postPage.module.css";
 import Like from "@/components/PostCard/like-buttons";
 import DisLike from "@/components/PostCard/dislike";
 import Link from "next/link";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 
 type Comment = {
   CommentLike: number;
@@ -28,6 +29,7 @@ export default function Comment({ comment }: { comment: Comment }) {
     dislike: comment.hasUserDisliked,
     count: comment.CommentLike - comment.CommentDisLike,
   });
+  const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
     setDate(true);
   }, []);
@@ -71,7 +73,9 @@ export default function Comment({ comment }: { comment: Comment }) {
                   };
                 });
                 try {
-                  //   await axiosPrivate.put("/api/like", { id: comment.id });
+                  await axiosPrivate.put("/api/comment/like", {
+                    id: comment.id,
+                  });
                 } catch (err) {
                   setLikeDislike(prevState);
                 }
@@ -95,7 +99,9 @@ export default function Comment({ comment }: { comment: Comment }) {
                   };
                 });
                 try {
-                  //   await axiosPrivate.put("/api/dislike", { id: comment.id });
+                  await axiosPrivate.put("/api/comment/dislike", {
+                    id: comment.id,
+                  });
                 } catch (err) {
                   setLikeDislike(prevState);
                 }
