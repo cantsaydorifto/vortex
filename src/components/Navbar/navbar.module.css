@@ -1,14 +1,12 @@
 .navbar {
-  box-sizing: border-box;
   height: 60px;
   padding: 0 20px;
-  width: calc(100% - 40px);
+  width: calc(100%);
   top: 0;
-  left: 20px;
-  left: 20px;
+  left: 0;
   display: flex;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   justify-content: space-between;
   gap: 50px;
   align-items: center;
@@ -82,4 +80,16 @@
   top: 7px;
   position: absolute;
   z-index: 1;
+}
+
+@media only screen and (max-width: 750px) {
+  .bar {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .navbar {
+    padding: 0 10px;
+  }
 }
