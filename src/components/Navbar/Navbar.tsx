@@ -36,10 +36,12 @@ export default function Navbar() {
         <Bar />
         <div>
           {user ? (
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/848/848006.png"
-              alt={user.username}
-            />
+            <Link href={`/user/${user.username}`}>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/848/848006.png"
+                alt={user.username}
+              />
+            </Link>
           ) : (
             <button onClick={() => toggleModal()}>Login</button>
           )}
