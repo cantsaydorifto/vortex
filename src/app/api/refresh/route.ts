@@ -39,10 +39,19 @@ export async function GET() {
                 commentId: true,
               },
             },
+            FollowingCommunity: {
+              select: {
+                communityId: true,
+              },
+            },
+            Follower: {
+              select: { followingId: true },
+            },
           },
         },
       },
     });
+    console.log(userRefreshToken?.User.Follower);
     if (!userRefreshToken) throw { status: 403, message: "Forbidden" };
 
     if (!process.env.JWT_REFRESH_SECRET)
@@ -70,6 +79,12 @@ export async function GET() {
         ),
         userCommentDislikes: userRefreshToken.User.CommentDisLike.map(
           (el) => el.commentId
+        ),
+        followingCommunities: userRefreshToken.User.FollowingCommunity.map(
+          (el) => el.communityId
+        ),
+        followingUsers: userRefreshToken.User.Follower.map(
+          (el) => el.followingId
         ),
       },
       { status: 200 }

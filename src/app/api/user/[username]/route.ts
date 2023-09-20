@@ -3,18 +3,42 @@ import prisma from "@/util/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { name: string } }
+  { params }: { params: { username: string } }
 ) {
-  const communityName = params.name;
+  const username = params.username;
   try {
-    const community = await prisma.vortex_Community.findUnique({
+    const userPageData = await prisma.vortex_User.findUnique({
       where: {
-        name: communityName,
+        username,
+      },
+      select: {
+        id: true,
+        username: true,
+        createdAt: true,
+        FollowingCommunity: {
+          select: {
+            Community: {
+              select: {
+                id: true,
+                name: true,
+                icon: true,
+              },
+            },
+          },
+        },
+        Following: {
+          select: {
+            followerId: true,
+          },
+        },
       },
     });
+    if (!userPageData) {
+      throw { status: 400, message: "Cant find User" };
+    }
     const postRes = await prisma.vortex_Post.findMany({
       where: {
-        communityId: community?.id,
+        authorId: userPageData.id,
       },
       include: {
         author: {
@@ -45,7 +69,15 @@ export async function GET(
     }));
     return NextResponse.json(
       {
-        community,
+        userInfo: {
+          username: userPageData.username,
+          joiningDate: userPageData.createdAt,
+          userId: userPageData.id,
+          following: userPageData.FollowingCommunity.length,
+          followers: userPageData.Following.length,
+          userProfilePic:
+            "https://cdn-icons-png.flaticon.com/512/848/848006.png", //REPLACE THIS WITH THE DB ProfilePIC
+        },
         posts,
       },
       { status: 200 }

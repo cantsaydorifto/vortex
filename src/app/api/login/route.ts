@@ -60,6 +60,16 @@ export async function POST(request: Request) {
             commentId: true,
           },
         },
+        FollowingCommunity: {
+          select: {
+            communityId: true,
+          },
+        },
+        Following: {
+          select: {
+            followingId: true,
+          },
+        },
       },
     });
     if (!user) throw { status: 401, message: "User Does Not Exist" };
@@ -102,6 +112,10 @@ export async function POST(request: Request) {
         userPostDislikes: user.DisLikes.map((el) => el.postId),
         userCommentLikes: user.CommentLike.map((el) => el.commentId),
         userCommentDislikes: user.CommentDisLike.map((el) => el.commentId),
+        followingCommunities: user.FollowingCommunity.map(
+          (el) => el.communityId
+        ),
+        followingUsers: user.Following.map((el) => el.followingId),
       },
       { status: 200 }
     );

@@ -42,6 +42,8 @@ export default function LoginForm({
         userPostDislikes: number[];
         userCommentLikes: number[];
         userCommentDislikes: number[];
+        followingUsers: number[];
+        followingCommunities: number[];
       }>("/api/login", {
         username: userInfo.username,
         password: userInfo.password,

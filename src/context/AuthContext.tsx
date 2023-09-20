@@ -11,6 +11,8 @@ type AuthState = {
     userPostDislikes: number[];
     userCommentLikes: number[];
     userCommentDislikes: number[];
+    followingUsers: number[];
+    followingCommunities: number[];
   } | null;
   isAuthenticated: boolean;
 };

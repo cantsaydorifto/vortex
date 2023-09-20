@@ -92,6 +92,8 @@ export async function POST(request: Request) {
         userPostDislikes: [],
         userCommentLikes: [],
         userCommentDislikes: [],
+        followingUsers: [],
+        followingCommunities: [],
       },
       { status: 200 }
     );

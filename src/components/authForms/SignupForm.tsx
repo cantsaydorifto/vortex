@@ -43,6 +43,8 @@ export default function SignupForm({
         userPostDislikes: number[];
         userCommentLikes: number[];
         userCommentDislikes: number[];
+        followingUsers: number[];
+        followingCommunities: number[];
       }>("/api/signup", {
         username: userInfo.username,
         password: userInfo.password,

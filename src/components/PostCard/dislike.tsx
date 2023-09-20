@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./post.module.css";
 
 export default function DisLike({ disLiked }: { disLiked: boolean }) {

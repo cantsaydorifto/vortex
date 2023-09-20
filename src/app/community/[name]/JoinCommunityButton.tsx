@@ -6,40 +6,62 @@ import styles from "./communityPage.module.css";
 import useAuth from "@/hooks/useAuth";
 
 export default function JoinCommunityButton({
-  following,
   id,
   hidden,
 }: {
-  following: boolean;
   id: number;
   hidden: boolean;
 }) {
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
-  const [follow, setFollow] = useState(following);
+  const {
+    auth: { user },
+    setAuth,
+  } = useAuth();
   const [loading, setLoading] = useState(false);
-  return auth.user ? (
+  const following = !!user?.followingCommunities.includes(id);
+  return user ? (
     <button
       disabled={loading}
-      key={!follow ? "Join" : "Leave"}
+      key={following ? "Join" : "Leave"}
       className={`${styles.joinCommunityButton}${
         hidden ? " " + styles.hiddenJoinCommunityButton : ""
       }`}
       onClick={async () => {
-        const prevState = follow;
+        const prevState = {
+          ...user,
+          userPostLikes: [...user.userPostLikes],
+          userPostDislikes: [...user.userPostDislikes],
+          userCommentLikes: [...user.userCommentLikes],
+          userCommentDislikes: [...user.userCommentDislikes],
+          followingUsers: [...user.followingUsers],
+          followingCommunities: [...user.followingCommunities],
+        };
         try {
           setLoading(true);
-          setFollow((prev) => !prev);
+          setAuth((prev) => {
+            if (!prev.user) return prev;
+            return {
+              ...prev,
+              user: {
+                ...prev.user,
+                followingCommunities: prev.user.followingCommunities.includes(
+                  id
+                )
+                  ? prev.user.followingCommunities.filter((el) => el !== id)
+                  : [...prev.user.followingCommunities, id],
+              },
+            };
+          });
           await axiosPrivate.put("/api/community/follow/" + id);
           setLoading(false);
         } catch (err) {
           // console.log(err);
-          setFollow(prevState);
+          setAuth((prev) => ({ ...prev, user: prevState }));
           setLoading(false);
         }
       }}
     >
-      {!follow ? "Join" : "Leave"}
+      {!following ? "Join" : "Leave"}
     </button>
   ) : (
     <button

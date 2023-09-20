@@ -1,3 +1,5 @@
+"use client";
+
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./communityPage.module.css";
 import CommunityInfoLoading from "./CommunityInfoLoading";

@@ -1,109 +1,46 @@
+"use client";
+
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./following.module.css";
-import prisma from "@/util/prisma";
-import { authRefreshVerify } from "@/util/authRefreshVerify";
 import UserInfoContainer from "../UserInfoContainer";
 import CommunityDescription from "@/app/community/[name]/CommunityDescription";
+import LoadingSkeleton from "./LoadingSkeleton";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-async function getUserPageInfo(username: string) {
-  let userId: number | null = null;
-  const userFollowing: number[] = [];
-
-  try {
-    const user = await authRefreshVerify();
-    userId = user.id;
-    userFollowing.push(...user.following);
-  } catch (err) {
-    console.log(err);
-  }
-  try {
-    const userPageData = await prisma.vortex_User.findUnique({
-      where: {
-        username,
-      },
-      select: {
-        id: true,
-        username: true,
-        createdAt: true,
-        FollowingCommunity: {
-          select: {
-            Community: {
-              select: {
-                id: true,
-                name: true,
-                description: true,
-                icon: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    if (!userPageData) {
-      return null;
+export default function Page({ params }: { params: { username: string } }) {
+  const [loading, setLoading] = useState(true);
+  const [pageError, setPageError] = useState(false);
+  const [pageData, setPageData] = useState<ResponseData | null>(null);
+  useEffect(() => {
+    async function getCommunityAndPosts(username: string) {
+      try {
+        const res = await axios.get<ResponseData>(
+          "/api/community/user/" + username
+        );
+        setLoading(false);
+        setPageData({
+          userInfo: res.data.userInfo,
+          followingCommunities: res.data.followingCommunities,
+        });
+      } catch (err) {
+        setLoading(false);
+        setPageError(true);
+      }
     }
+    getCommunityAndPosts(params.username);
+  }, [params.username]);
 
-    const followers = await prisma.vortex_Follow.count({
-      where: {
-        followingId: userPageData.id,
-      },
-    });
-
-    if (!userId) {
-      return {
-        userInfo: {
-          username: userPageData.username,
-          joiningDate: userPageData.createdAt,
-          userId: userPageData.id,
-          following: userPageData.FollowingCommunity.length,
-          followers,
-          userProfilePic:
-            "https://cdn-icons-png.flaticon.com/512/848/848006.png", //REPLACE THIS WITH THE DB ProfilePIC
-        },
-        followingCommunities: userPageData.FollowingCommunity,
-        follow: false,
-        userFollowing,
-      };
-    }
-    const follow = await prisma.vortex_Follow.findUnique({
-      where: {
-        followerId_followingId: {
-          followerId: userId,
-          followingId: userPageData.id,
-        },
-      },
-    });
-    return {
-      userInfo: {
-        username: userPageData.username,
-        joiningDate: userPageData.createdAt,
-        userId: userPageData.id,
-        following: userPageData.FollowingCommunity.length,
-        followers,
-        userProfilePic: "https://cdn-icons-png.flaticon.com/512/848/848006.png", //REPLACE THIS WITH THE DB ProfilePIC
-      },
-      followingCommunities: userPageData.FollowingCommunity,
-      follow: !!follow,
-      userFollowing,
-    };
-  } catch (err) {
-    console.log(err);
+  if (loading) {
+    return <LoadingSkeleton />;
   }
-}
 
-export default async function Page({
-  params,
-}: {
-  params: { username: string };
-}) {
-  const res = await getUserPageInfo(params.username);
-
-  if (!res || !res.userInfo)
+  if (pageError || !pageData)
     return (
       <main className={styles.container}>
         <Sidebar />
         <div className={styles.pageContainer}>
-          <h1>Cant Find User</h1>
+          <h1>Something Went Wrong</h1>
         </div>
       </main>
     );
@@ -112,24 +49,35 @@ export default async function Page({
     <main className={styles.container}>
       <Sidebar />
       <div className={styles.pageContainer}>
-        <UserInfoContainer
-          userInfo={res.userInfo}
-          doesUserFollow={res.follow}
-        />
+        <UserInfoContainer userInfo={pageData.userInfo} />
         <h2 className={styles.h2}>Communities Joined :</h2>
         <div className={styles.followingContainer}>
-          {res.followingCommunities.map((el) => (
+          {pageData.followingCommunities.map((el) => (
             <div key={el.Community.id}>
-              <CommunityDescription
-                community={el.Community}
-                following={res.userFollowing}
-              />
+              <CommunityDescription community={el.Community} />
             </div>
           ))}
         </div>
-        {/* <div className={styles.postContainer}>
-        </div> */}
       </div>
     </main>
   );
 }
+
+type ResponseData = {
+  userInfo: {
+    username: string;
+    joiningDate: Date;
+    userId: number;
+    following: number;
+    followers: number;
+    userProfilePic: string;
+  };
+  followingCommunities: {
+    Community: {
+      id: number;
+      name: string;
+      description: string;
+      icon: string;
+    };
+  }[];
+};

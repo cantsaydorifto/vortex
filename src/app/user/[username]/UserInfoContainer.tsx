@@ -5,14 +5,15 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 
-export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
-  const [follow, setFollow] = useState({
-    doesUserFollow,
-    followers: userInfo.followers,
-  });
+export default function UserInfoContainer({ userInfo }: Props) {
+  const {
+    auth: { user },
+    setAuth,
+  } = useAuth();
+  console.log(user?.followingUsers);
+  const [followerCount, setFollowerCount] = useState(userInfo.followers);
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
   return (
     <div className={styles.userContainer}>
       <span>
@@ -20,28 +21,54 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
         <span>
           {userInfo.username[0].toUpperCase() + userInfo.username.slice(1)}
         </span>
-        {auth.user ? (
+        {user ? (
           <button
             className={styles.joinCommunityButton}
             disabled={loading}
             onClick={async () => {
-              const prevState = follow;
+              const prevState = {
+                ...user,
+                userPostLikes: [...user.userPostLikes],
+                userPostDislikes: [...user.userPostDislikes],
+                userCommentLikes: [...user.userCommentLikes],
+                userCommentDislikes: [...user.userCommentDislikes],
+                followingUsers: [...user.followingUsers],
+                followingCommunities: [...user.followingCommunities],
+              };
+              let countToAdd = 0;
               try {
                 setLoading(true);
-                setFollow((prev) => ({
-                  ...prev,
-                  doesUserFollow: !prev.doesUserFollow,
-                  followers: prev.followers + (prev.doesUserFollow ? -1 : +1),
-                }));
+                setAuth((prev) => {
+                  if (!prev.user) return prev;
+                  const userFollowing = prev.user.followingUsers.includes(
+                    userInfo.userId
+                  );
+                  countToAdd = userFollowing ? -1 : +1;
+                  return {
+                    ...prev,
+                    user: {
+                      ...prev.user,
+                      followingUsers: userFollowing
+                        ? prev.user.followingUsers.filter(
+                            (el) => el !== userInfo.userId
+                          )
+                        : [...prev.user.followingUsers, userInfo.userId],
+                    },
+                  };
+                });
+                setFollowerCount((prev) => prev + countToAdd);
                 await axiosPrivate.put("/api/user/follow/" + userInfo.userId);
                 setLoading(false);
               } catch (err) {
-                setFollow(prevState);
+                setAuth((prev) => ({ ...prev, user: prevState }));
+                setFollowerCount((prev) => prev - countToAdd);
                 setLoading(false);
               }
             }}
           >
-            {follow.doesUserFollow ? "UnFollow" : "Follow"}
+            {user?.followingUsers.includes(userInfo.userId)
+              ? "UnFollow"
+              : "Follow"}
           </button>
         ) : (
           <button
@@ -57,7 +84,7 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
       </span>
       <div className={styles.follow}>
         <p>
-          <span>{follow.followers}</span> Followers
+          <span>{followerCount}</span> Followers
         </p>
         <p>
           <span>{userInfo.following}</span>{" "}
@@ -69,8 +96,8 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
           src="https://cdn-icons-png.flaticon.com/512/591/591607.png"
           alt=""
         />
-        Joined {month(userInfo.joiningDate.getMonth())}{" "}
-        {userInfo.joiningDate.getFullYear()}
+        Joined {month(new Date(userInfo.joiningDate).getMonth())}{" "}
+        {new Date(userInfo.joiningDate).getFullYear()}
       </div>
     </div>
   );
@@ -102,5 +129,4 @@ type Props = {
     followers: number;
     following: number;
   };
-  doesUserFollow: boolean;
 };

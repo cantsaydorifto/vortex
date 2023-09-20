@@ -17,6 +17,8 @@ export default function useRefresh() {
         userPostDislikes: number[];
         userCommentLikes: number[];
         userCommentDislikes: number[];
+        followingCommunities: number[];
+        followingUsers: number[];
       }>("/api/refresh", { withCredentials: true });
 
       setAuth({ isAuthenticated: true, user: res.data });

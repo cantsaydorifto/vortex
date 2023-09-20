@@ -2,7 +2,7 @@
 import JoinCommunityButton from "./JoinCommunityButton";
 import styles from "./CommunityDescription.module.css";
 
-export default function CommunityDescription({ community, following }: Props) {
+export default function CommunityDescription({ community }: Props) {
   return (
     <>
       <div className={styles.desc}>
@@ -12,11 +12,7 @@ export default function CommunityDescription({ community, following }: Props) {
             {community.name[0].toUpperCase() + community.name.slice(1)}
           </span>
         </div>
-        <JoinCommunityButton
-          hidden={false}
-          following={following.includes(community.id)}
-          id={community.id}
-        />
+        <JoinCommunityButton hidden={false} id={community.id} />
       </div>
       <p>{community.description} </p>
     </>
@@ -30,5 +26,4 @@ type Props = {
     description: string;
     icon: string;
   };
-  following: number[];
 };

@@ -1,4 +1,3 @@
-import authVerify from "@/util/authVerify";
 import { NextResponse } from "next/server";
 import prisma from "@/util/prisma";
 

@@ -1,15 +1,17 @@
-import Sidebar from "@/components/sidebar/Sidebar";
-import styles from "./following.module.css";
-import LoadingUserContainer from "../LoadingUserContainer";
-import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
+"use client";
 
-export default async function Loading() {
+import Sidebar from "@/components/sidebar/Sidebar";
+import styles from "./userPage.module.css";
+import LoadingPostCard from "@/components/PostCard/LoadingPostCard";
+import LoadingUserContainer from "./LoadingUserContainer";
+
+export default function LoadingSkeleton() {
   return (
     <main className={styles.container}>
       <Sidebar />
       <div className={styles.pageContainer}>
         <LoadingUserContainer />
-        <div className={styles.followingContainer}>
+        <div className={styles.postContainer}>
           {[1, 2, 3, 4, 5].map((el) => (
             <LoadingPostCard key={el} />
           ))}

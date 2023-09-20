@@ -8,14 +8,12 @@ import type { vortex_Post as Post } from "@prisma/client";
 import { useEffect, useState } from "react";
 import LoadingSkeleton from "./loadingSkeleton";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import useAuth from "@/hooks/useAuth";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const [pageData, setPageData] = useState<ResponseData | null>(null);
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
 
   useEffect(() => {
     if (isNaN(params.id as any)) {

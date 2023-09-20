@@ -21,11 +21,6 @@ export default async function authVerify() {
         select: {
           username: true,
           id: true,
-          FollowingCommunity: {
-            select: {
-              communityId: true,
-            },
-          },
         },
       },
     },
@@ -63,8 +58,5 @@ export default async function authVerify() {
   return {
     username: userRefreshToken.User.username,
     id: userRefreshToken.User.id,
-    following: userRefreshToken.User.FollowingCommunity.map(
-      (el) => el.communityId
-    ),
   };
 }

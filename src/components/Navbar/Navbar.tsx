@@ -1,6 +1,6 @@
 "use client";
 import styles from "./navbar.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // import { useLogout } from "@/hooks/useLogout";
 import Modal from "../Modal/Modal";
 import LoginForm from "../authForms/LoginForm";

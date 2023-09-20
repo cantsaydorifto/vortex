@@ -8,25 +8,23 @@ import CommunityDescription from "./CommunityDescription";
 import CreatePost from "@/components/CreateButton/CreatePost";
 import { useEffect, useState } from "react";
 import LoadingSkeleton from "./loadingSekeleton";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import axios from "axios";
 
 export default function Page({ params }: { params: { name: string } }) {
   const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const [pageData, setPageData] = useState<ResponseData | null>(null);
-  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     async function getCommunityAndPosts(communityName: string) {
       try {
-        const res = await axiosPrivate.get<ResponseData>(
+        const res = await axios.get<ResponseData>(
           "/api/post/community/" + communityName
         );
         setLoading(false);
         setPageData({
           posts: res.data.posts,
           community: res.data.community,
-          following: res.data.following,
         });
       } catch (err) {
         setLoading(false);
@@ -57,10 +55,7 @@ export default function Page({ params }: { params: { name: string } }) {
       <div className={styles.comInfoContainer}>
         <div className={styles.postContainer}>
           <div>
-            <CommunityDescription
-              community={pageData.community}
-              following={pageData.following}
-            />
+            <CommunityDescription community={pageData.community} />
             <CreatePost />
           </div>
           {pageData.posts.map((post) => (
@@ -72,10 +67,7 @@ export default function Page({ params }: { params: { name: string } }) {
             />
           ))}
         </div>
-        <CommunityInfo
-          following={pageData.following.includes(pageData.community.id)}
-          res={pageData.community}
-        />
+        <CommunityInfo res={pageData.community} />
       </div>
     </main>
   );
@@ -112,5 +104,4 @@ type ResponseData = {
     authorId: number;
     communityId: number;
   }[];
-  following: number[];
 };
