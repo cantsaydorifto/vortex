@@ -72,7 +72,6 @@ export default function AddCommunityForm({
               endpoint="iconUploader"
               onClientUploadComplete={(res) => {
                 // Do something with the response
-                console.log("Files: ", res);
                 if (res)
                   setCommunityInfo((prev) => {
                     return { ...prev, icon: res[0].fileUrl };

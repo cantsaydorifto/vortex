@@ -24,7 +24,6 @@ export default function Home() {
     try {
       if (!auth.user) return;
       setLoading(true);
-      // console.log(auth.user.token);
       const res = await axiosPrivate.post<{ message: string; name: string }>(
         "/api/community",
         {
@@ -37,7 +36,6 @@ export default function Home() {
           headers: { Authorization: `Bearer: ${auth.user.token}` },
         }
       );
-      console.log("res", res);
       setLoading(false);
       router.push(`/community/${res.data.name}`);
     } catch (err: any) {
@@ -78,7 +76,6 @@ export default function Home() {
             <UploadButton
               endpoint="imageUploader"
               onClientUploadComplete={(res) => {
-                console.log("Files: ", res);
                 if (res)
                   setCommunityInfo((prev) => {
                     return { ...prev, imageSrc: res[0].fileUrl };

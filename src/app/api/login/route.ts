@@ -30,7 +30,6 @@ export async function POST(request: Request) {
     const userInfo = getUserInfoSchema().safeParse(reqBody);
     if (!userInfo.success)
       throw { status: 400, message: userInfo.error.issues[0].message };
-    console.log(userInfo.data);
 
     const user = await prisma.vortex_User.findUnique({
       where: {

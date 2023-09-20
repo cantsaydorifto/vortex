@@ -50,11 +50,6 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
       </main>
     );
-  console.log("LIKE : ", auth.user?.userPostLikes.includes(pageData.postId));
-  console.log(
-    "DISLIKE : ",
-    auth.user?.userPostDislikes.includes(pageData.postId)
-  );
 
   return (
     <main className={styles.container}>

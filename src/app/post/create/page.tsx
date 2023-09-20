@@ -145,13 +145,11 @@ export default function CreatePost() {
             onClick={async () => {
               try {
                 setLoading(true);
-                console.log(token);
                 const postBody = {
                   title: postInfo.title,
                   content: postInfo.content,
                   communityId: community?.id,
                 };
-                console.log(postBody);
                 await axiosPrivate.post("/api/post", postBody, {
                   headers: { Authorization: `Bearer: ${token}` },
                 });

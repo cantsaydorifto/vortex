@@ -26,7 +26,6 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
             disabled={loading}
             onClick={async () => {
               const prevState = follow;
-              console.log(prevState);
               try {
                 setLoading(true);
                 setFollow((prev) => ({
@@ -37,7 +36,6 @@ export default function UserInfoContainer({ userInfo, doesUserFollow }: Props) {
                 await axiosPrivate.put("/api/user/follow/" + userInfo.userId);
                 setLoading(false);
               } catch (err) {
-                // console.log(err);
                 setFollow(prevState);
                 setLoading(false);
               }

@@ -1,7 +1,6 @@
 import axios from "axios";
-
 export const axiosPrivate = axios.create({
-  baseURL: "https://vortexlab.vercel.app",
+  baseURL: process.env.BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

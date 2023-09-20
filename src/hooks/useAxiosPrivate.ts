@@ -30,11 +30,11 @@ export default function useAxiosPrivate() {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers.Authorization = `Bearer: ${newAccessToken}`;
-          console.log("Generated New Access Token");
+          // console.log("Generated New Access Token");
           return axiosPrivate(prevRequest);
         }
         if (error?.response?.status === 403 && prevRequest.sent) {
-          console.log("logout");
+          // console.log("logout");
           await logout();
         }
         return Promise.reject(error);

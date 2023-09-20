@@ -24,10 +24,6 @@ export default function Navbar() {
   const [loginForm, setLoginForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   //   const { signout } = useLogout();
 
   return (

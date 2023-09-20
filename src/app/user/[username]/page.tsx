@@ -129,8 +129,6 @@ async function getUserPageInfo(username: string) {
         },
       }),
     ]);
-    console.log(!!follow);
-    console.log({ followerId: userId, followingId: userPageData.id });
     return {
       posts,
       userInfo: {

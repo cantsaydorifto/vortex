@@ -96,7 +96,6 @@ export default async function Page({
 }: {
   params: { username: string };
 }) {
-  console.log(params.username);
   const res = await getUserPageInfo(params.username);
 
   if (!res || !res.userInfo)

@@ -10,7 +10,6 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
-      console.log("user");
       const user = await authRefreshVerify();
       // If you throw, the user will not be able to upload
       if (!user) throw new Error("Unauthorized");
@@ -26,7 +25,6 @@ export const ourFileRouter = {
     }),
   iconUploader: f({ image: { maxFileSize: "512KB" } })
     .middleware(async () => {
-      console.log("user");
       const user = await authRefreshVerify();
       if (!user) throw new Error("Unauthorized");
 
