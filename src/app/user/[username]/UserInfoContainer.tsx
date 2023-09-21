@@ -4,6 +4,7 @@ import styles from "./userPage.module.css";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
+import useLogout from "@/hooks/useLogout";
 
 export default function UserInfoContainer({ userInfo }: Props) {
   const {
@@ -13,6 +14,7 @@ export default function UserInfoContainer({ userInfo }: Props) {
   const [followerCount, setFollowerCount] = useState(userInfo.followers);
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
+  const logout = useLogout();
   return (
     <div className={styles.userContainer}>
       <span>
@@ -20,6 +22,24 @@ export default function UserInfoContainer({ userInfo }: Props) {
         <span>
           {userInfo.username[0].toUpperCase() + userInfo.username.slice(1)}
         </span>
+        {user?.username === userInfo.username && (
+          <button
+            disabled={loading}
+            className={styles.logOutBtn}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                await logout();
+                setLoading(false);
+              } catch (err) {
+                setLoading(false);
+                // console.log(err);
+              }
+            }}
+          >
+            Log Out
+          </button>
+        )}
         {user ? (
           <button
             className={styles.joinCommunityButton}
@@ -66,7 +86,7 @@ export default function UserInfoContainer({ userInfo }: Props) {
             }}
           >
             {user?.followingUsers.includes(userInfo.userId)
-              ? "UnFollow"
+              ? "Unfollow"
               : "Follow"}
           </button>
         ) : (

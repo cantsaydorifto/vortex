@@ -90,13 +90,23 @@
   background-color: rgb(83, 83, 179);
   color: white;
   border: none;
-  padding: 6px 12px;
-  margin-left: 20px;
+  padding: 10px;
+  margin-left: 10px;
   cursor: pointer;
   width: fit-content;
   height: fit-content;
-  border-radius: 18px;
+  border-radius: 6px;
   animation: pop 0.1s ease-in-out;
+}
+
+.logOutBtn {
+  border: 2px solid rgb(83, 83, 179);
+  color: rgb(116, 116, 226);
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 @media only screen and (max-width: 1300px) {
