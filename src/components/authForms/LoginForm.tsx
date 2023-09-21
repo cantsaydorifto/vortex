@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import styles from "../Modal/modal.module.css";
 
 export default function LoginForm({
   toggleModal,
@@ -87,8 +88,6 @@ export default function LoginForm({
           id="password"
         />
       </div>
-      {loading && <div>loading....</div>}
-      {error && <div>{error}</div>}
       <button
         onClick={async (event) => {
           event.preventDefault();
@@ -97,6 +96,17 @@ export default function LoginForm({
       >
         Log In
       </button>
+      {!loading && !error && <p className={styles.loading}></p>}
+      {loading && (
+        <p key={"loading"} className={styles.loading}>
+          Loading...
+        </p>
+      )}
+      {error && (
+        <p key={error} className={styles.loading}>
+          {error}
+        </p>
+      )}
     </form>
   );
 }

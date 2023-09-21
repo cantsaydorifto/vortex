@@ -32,6 +32,29 @@
   animation: modalContent 0.2s forwards;
 }
 
+.content > p {
+  font-size: 0.85rem;
+  margin: 5px 0;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  color: rgb(202, 46, 46);
+  margin: -10px 0;
+  font-size: 0.8rem;
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes modalContent {
   0% {
     scale: 0.7;
@@ -64,9 +87,10 @@
 }
 
 .content > form > div > input {
+  outline: none;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 5px;
+  margin-top: 8px;
   border-radius: 16px;
   padding: 0 10px;
   border: none;
