@@ -128,6 +128,7 @@ export default function CreatePost() {
           </div>
           <input
             id="communitySelectInput"
+            autoComplete="off"
             onChange={(ev) => handleInputChange(ev.target.value)}
             placeholder="Search"
             type="text"
@@ -136,6 +137,7 @@ export default function CreatePost() {
             <label htmlFor="title">Title</label>
             <input
               value={postInfo.title}
+              autoComplete="off"
               onChange={(event) =>
                 setPostInfo((prev) => {
                   return { ...prev, title: event.target.value };
