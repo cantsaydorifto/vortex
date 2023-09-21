@@ -10,7 +10,7 @@
 
 .comInfoContainer {
   margin-left: 200px;
-  padding: 0 20px;
+  padding: 0 20px 40px 20px;
   margin-top: 80px;
   height: fit-content;
   width: 100%;
@@ -134,7 +134,7 @@
 @media only screen and (max-width: 1300px) {
   .comInfoContainer {
     margin-left: 0;
-    padding: 0 40px;
+    padding: 0 40px 20px 40px;
   }
 }
 
@@ -152,6 +152,6 @@
 
 @media only screen and (max-width: 800px) {
   .comInfoContainer {
-    padding: 0 20px;
+    padding: 0 20px 20px 20px;
   }
 }

@@ -29,12 +29,16 @@
 .postContainer {
   display: flex;
   flex-direction: column;
-  padding: 40px 20px;
+  padding: 40px 20px 20px 20px;
   gap: 40px;
 }
 
 @media only screen and (max-width: 1300px) {
   .pageContainer {
     margin-left: 0;
+  }
+  .postContainer {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
