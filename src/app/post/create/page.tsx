@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./create.module.css";
 import axios from "axios";
 import useAuth from "@/hooks/useAuth";
@@ -29,6 +29,7 @@ export default function CreatePost() {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [doc, setDoc] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [community, setCommunity] = useState<{
     name: string;
@@ -44,6 +45,10 @@ export default function CreatePost() {
   const [results, setResults] = useState<
     { name: string; id: number; icon: string }[]
   >([]);
+
+  useEffect(() => {
+    setDoc(true);
+  }, []);
 
   const handleInputChange = debounce(async (value) => {
     try {
@@ -85,7 +90,7 @@ export default function CreatePost() {
             )}
             <div key={JSON.stringify(results)}>
               {results.length === 0 &&
-                document.querySelector("#communitySelectInput") &&
+                doc &&
                 (
                   document.querySelector(
                     "#communitySelectInput"
