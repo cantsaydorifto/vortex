@@ -12,7 +12,6 @@ export default function Page({ params }: { params: { username: string } }) {
   const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const [pageData, setPageData] = useState<ResponseData | null>(null);
-  console.log(pageData?.userInfo);
   useEffect(() => {
     async function getCommunityAndPosts(username: string) {
       try {

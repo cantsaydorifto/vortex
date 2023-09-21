@@ -52,7 +52,6 @@ export default function LoginForm({
       ctx.setAuth({ isAuthenticated: true, user: res.data });
       setError(null);
       setLoading(false);
-      console.log(res);
     } catch (err: any) {
       setLoading(false);
       console.log(err);

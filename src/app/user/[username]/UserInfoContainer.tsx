@@ -10,7 +10,6 @@ export default function UserInfoContainer({ userInfo }: Props) {
     auth: { user },
     setAuth,
   } = useAuth();
-  console.log(user?.followingUsers);
   const [followerCount, setFollowerCount] = useState(userInfo.followers);
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();

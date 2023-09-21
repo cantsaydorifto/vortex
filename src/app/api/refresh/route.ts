@@ -51,7 +51,6 @@ export async function GET() {
         },
       },
     });
-    console.log(userRefreshToken?.User.Follower);
     if (!userRefreshToken) throw { status: 403, message: "Forbidden" };
 
     if (!process.env.JWT_REFRESH_SECRET)

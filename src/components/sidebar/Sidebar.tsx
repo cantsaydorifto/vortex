@@ -30,7 +30,6 @@ export default function Sidebar() {
       name: "cyberpunk2077",
     },
   ];
-  // console.log(res);
   return (
     <div className={styles.sidebar}>
       <div>
