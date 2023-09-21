@@ -149,3 +149,9 @@
     display: block;
   }
 }
+
+@media only screen and (max-width: 800px) {
+  .comInfoContainer {
+    padding: 0 20px;
+  }
+}
