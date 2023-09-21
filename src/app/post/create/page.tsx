@@ -83,7 +83,24 @@ export default function CreatePost() {
                 Select a community
               </div>
             )}
-            <div>
+            <div key={JSON.stringify(results)}>
+              {results.length === 0 &&
+                document.querySelector("#communitySelectInput") &&
+                (
+                  document.querySelector(
+                    "#communitySelectInput"
+                  ) as HTMLInputElement
+                ).value !== "" && (
+                  <div
+                    style={{
+                      padding: "10px",
+                      height: "40px",
+                      minWidth: "200px",
+                    }}
+                  >
+                    No results
+                  </div>
+                )}
               {results.map((el) => (
                 <div
                   onClick={() => {
@@ -142,6 +159,7 @@ export default function CreatePost() {
         </form>
         {token ? (
           <button
+            disabled={loading}
             onClick={async () => {
               try {
                 setLoading(true);
